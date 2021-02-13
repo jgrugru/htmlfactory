@@ -1,18 +1,18 @@
+from html5print import HTMLBeautifier
+
 import sys
 import os.path
 sys.path.append(
     os.path.abspath(os.path.dirname(__file__)))
-
-from html5print import HTMLBeautifier
 
 from InnerHtml import InnerHtml
 from TagAttributeList import TagAttributeList
 
 
 class TagFactory():
-    """A tag object that has a tag (ex: 'div'),
+    """A tag object that has an html tag (ex: 'div'),
        inner_html ojbect (could be a list of other tag objects or a string),
-       and attribute dictionary."""
+       and attribute list containing attribute objects."""
 
     def __init__(self, tag_and_class_str: str, inner_html,
                  **kwargs):
@@ -23,6 +23,9 @@ class TagFactory():
         self.cleanse_tag_and_class_str(tag_and_class_str)
 
     def split_str_by_period(self, str):
+        """Return the string split by periods.
+        "div.col-md-10" becomes ["div", "col-md-10"]."""
+
         return str.split(".")
 
     def cleanse_tag_and_class_str(self, tag_and_class_str):
@@ -53,18 +56,12 @@ class TagFactory():
             else:
                 attr_str += ' ' + klass
         attr_str += "\'"
-        # for attr in kwargs:
-        #     attr_str += ' ' + attr + '=' + "\'" + kwargs[attr] + "\'"
         return attr_str
 
     def __str__(self):
         """This function produces the usable html."""
         html = "<" + self.tag \
-               + self.attr_concatenater(*self.class_list) + str(self.TagAttributeList) \
+               + self.attr_concatenater(*self.class_list) \
+               + str(self.TagAttributeList) \
                + ">" + str(self.inner_html) + "</" + self.tag + ">"
         return HTMLBeautifier.beautify(html, 2)
-
-
-        # html = "<" + self.tag \
-        #        + self.attr_concatenater(*self.class_list, **self.attr_dict) \
-        #        + ">" + str(self.inner_html) + "</" + self.tag + ">"

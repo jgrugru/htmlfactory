@@ -5,8 +5,8 @@ sys.path.append(
 
 from html5print import HTMLBeautifier
 
-from src.TagFactory import TagFactory
-from src.TagAttributeList import TagAttributeList
+from htmlfactory.TagFactory import TagFactory
+from htmlfactory.TagAttributeList import TagAttributeList
 
 
 def test_ouput():
