@@ -1,4 +1,9 @@
-from src.InnerHtml import InnerHtml
+import sys
+import os.path
+sys.path.append(
+    os.path.abspath(os.path.dirname(__file__)))
+
+from InnerHtml import InnerHtml
 
 class TagFactory():
     """A tag object that has a tag, inner_html ojbect, and attribute dictionary."""
