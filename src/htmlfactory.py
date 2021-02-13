@@ -11,7 +11,8 @@ class TagFactory():
         return str.split(".")
 
     def cleanse_tag_and_class_str(self, tag_and_class_str):
-        """This function parses the tag and class string (ex. 'div.col-md-10.col-10')."""
+        """This function parses the tag and class string
+           (ex. 'div.col-md-10.col-10')."""
         tag_and_class_list = self.split_str_by_period(tag_and_class_str)
         if tag_and_class_list[0] in self.list_of_tags:
             self.tag = tag_and_class_list[0]
@@ -24,7 +25,8 @@ class TagFactory():
             self.class_list = ''
 
     def attr_concatenater(self, *args, **kwargs):
-        """This function creates a string with all of the html attributes concatenated together."""
+        """This function creates a string with all of the html
+           attributes concatenated together."""
         if(len(args) == 0 and len(kwargs) == 0):
             return ''
         attr_str = " class="
@@ -38,11 +40,6 @@ class TagFactory():
             attr_str += ' ' + attr + '=' + "\'" + kwargs[attr] + "\'"
         return attr_str
 
-    def __str__(self):
-        """This function produces the usable html."""
-        return "<" + self.tag + self.attr_concatenater(*self.class_list, **self.attr_dict) \
-               + ">" + self.inner_html + self.concatenate_children() + "</" + self.tag + ">"
-
     def concatenate_children(self):
         inside_tags_str = ""
         if(self.children):
@@ -50,16 +47,29 @@ class TagFactory():
                 inside_tags_str += str(tag_object) + '\n'
         return inside_tags_str
 
+    def __str__(self):
+        """This function produces the usable html."""
+        return "<" + self.tag \
+               + self.attr_concatenater(*self.class_list, **self.attr_dict) \
+               + ">" + self.inner_html + self.concatenate_children() \
+               + "</" + self.tag + ">"
+
+
 def test_ouput():
-    assert(str(TagFactory("div.col-10.col-lg-9.d-inline-block", 'inside the tags', id="target-div"))
-           == "<div class='col-10 col-lg-9 d-inline-block' id='target-div'>inside the tags</div>")
+    assert(str(TagFactory("div.col-10.col-lg-9.d-inline-block",
+           'inside the tags', id="target-div"))
+           == "<div class='col-10 col-lg-9 d-inline-block'"
+           + " id='target-div'>inside the tags</div>")
+
 
 def example_html_creation():
-    x = TagFactory("body",'')
-    x.children = (
-        TagFactory("div.col-10.col-lg-9.d-inline-block", 'inside the tags', id="target-div"),
+    body_tag_object = TagFactory("body", '')
+    body_tag_object.children = (
+        TagFactory("div.col-10.col-lg-9.d-inline-block",
+                   'inside the tags', id="target-div"),
         TagFactory("div.col-10.col-lg-3.d-inline-block", 'well how about that')
     )
-    print(x)
+    print(body_tag_object)
+
 
 example_html_creation()
