@@ -4,10 +4,9 @@ class TagFactory():
                  children=(), **kwargs):
         self.list_of_tags = ("body", "document", "div", "h1", "form",
                              "input", "small", "button", "label")
-        self.inner_html = inner_html
+        self.inner_html = InnerHtml(inner_html)
         self.attr_dict = kwargs
         self.cleanse_tag_and_class_str(tag_and_class_str)
-        self.children = children
 
     def split_str_by_period(self, str):
         return str.split(".")
@@ -42,19 +41,36 @@ class TagFactory():
             attr_str += ' ' + attr + '=' + "\'" + kwargs[attr] + "\'"
         return attr_str
 
-    def concatenate_children(self):
+    def __str__(self):
+        """This function produces the usable html."""
+        # breakpoint()
+        return "<" + self.tag \
+               + self.attr_concatenater(*self.class_list, **self.attr_dict) \
+               + ">" + str(self.inner_html) + "</" + self.tag + ">"
+
+
+class InnerHtml():
+
+    def __init__(self, inner_html):
+        self.inner_html = inner_html
+
+    def is_list_or_tuple(self, an_object):
+        if type(an_object) == tuple or type(an_object) == list:
+            return True
+        else:
+            return False
+
+    def concatenate_children(self, iterable_object):
         inside_tags_str = ""
-        if(self.children):
-            for tag_object in self.children:
-                inside_tags_str += str(tag_object) + '\n'
+        for tag_object in iterable_object:
+            inside_tags_str += str(tag_object) + '\n'
         return inside_tags_str
 
     def __str__(self):
-        """This function produces the usable html."""
-        return "<" + self.tag \
-               + self.attr_concatenater(*self.class_list, **self.attr_dict) \
-               + ">" + self.inner_html + self.concatenate_children() \
-               + "</" + self.tag + ">"
+        if self.is_list_or_tuple(self.inner_html):
+            return self.concatenate_children(self.inner_html)
+        else:
+            return str(self.inner_html)
 
 
 def test_ouput():
@@ -65,22 +81,22 @@ def test_ouput():
 
 
 def example_html_creation():
-    body_tag_object = TagFactory("body", '', (
+    body_tag_object = TagFactory("body", (
         TagFactory("div.col-10.col-lg-9.d-inline-block",
                    'inside the tags', id="target-div"),
         TagFactory("div.col-10.col-lg-3.d-inline-block",
                    'well how about that'),
-        TagFactory("form.input-handler", '', (
-            TagFactory("div.form-group", '', (
+        TagFactory("form.input-handler", (
+            TagFactory("div.form-group", (
                 TagFactory("label", 'Email Address', foor="exampleInputEmail1"),
                 TagFactory("input.form-control", '', id="exampleInputEmail1", ariadescribedby="emailHelp", placeholder="Enter email"),
                 TagFactory("small.form-text.text-muted", "We'll never share your email with anyone else.", id="emailHelp"),
             )),
-            TagFactory("div.form-group", '', (
+            TagFactory("div.form-group", (
                 TagFactory("label", 'Password', foor="exampleInputPassword1"),
                 TagFactory("input.form-control", '', id="exampleInputPassword1", placeholder="Password"),
             )),
-            TagFactory("div.form-check", '', (
+            TagFactory("div.form-check", (
                 TagFactory("input.form-check-input", '', id="exampleCheck1"),
                 TagFactory("label.form-check-label", 'Check me out', foor="exampleCheck1"),
             )),
@@ -108,4 +124,9 @@ def example_html_creation():
     </body>"""
 
 
-example_html_creation()
+# example_html_creation()
+
+print(TagFactory("div.col-10.col-lg-9.d-inline-block", (
+                 TagFactory("div.dish-network", 'inside the last div')
+                 ), id="target-div"))
+# print(TagFactory("div.col-10.col-lg-9.d-inline-block", '', id="target-div"))
