@@ -5,7 +5,7 @@ class TagFactory():
         self.inner_html = inner_html
         self.attr_dict = kwargs
         self.cleanse_tag_and_class_str(tag_and_class_str)
-        print(kwargs)
+        self.children = ()
 
     def split_str_by_period(self, str):
         return str.split(".")
@@ -41,9 +41,25 @@ class TagFactory():
     def __str__(self):
         """This function produces the usable html."""
         return "<" + self.tag + self.attr_concatenater(*self.class_list, **self.attr_dict) \
-               + ">" + self.inner_html + "</" + self.tag + ">"
+               + ">" + self.inner_html + self.concatenate_children() + "</" + self.tag + ">"
 
+    def concatenate_children(self):
+        inside_tags_str = ""
+        if(self.children):
+            for tag_object in self.children:
+                inside_tags_str += str(tag_object) + '\n'
+        return inside_tags_str
 
 def test_ouput():
     assert(str(TagFactory("div.col-10.col-lg-9.d-inline-block", 'inside the tags', id="target-div"))
            == "<div class='col-10 col-lg-9 d-inline-block' id='target-div'>inside the tags</div>")
+
+def example_html_creation():
+    x = TagFactory("body",'')
+    x.children = (
+        TagFactory("div.col-10.col-lg-9.d-inline-block", 'inside the tags', id="target-div"),
+        TagFactory("div.col-10.col-lg-3.d-inline-block", 'well how about that')
+    )
+    print(x)
+
+example_html_creation()
