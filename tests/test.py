@@ -3,13 +3,16 @@ import os.path
 sys.path.append(
     os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
 
+from html5print import HTMLBeautifier
+
 from src.TagFactory import TagFactory
+from src.TagAttributeList import TagAttributeList
+
 
 def test_ouput():
-    assert(str(TagFactory("div.col-10.col-lg-9.d-inline-block",
-           'inside the tags', id="target-div"))
-           == "<div class='col-10 col-lg-9 d-inline-block'"
-           + " id='target-div'>inside the tags</div>")
+    assert(HTMLBeautifier.beautify(str(TagFactory("div.col-10.col-lg-9.d-inline-block",
+           'inside the tags', id="target-div")), 0)
+           == '''<html>\n<head>\n</head>\n<body>\n<div class="col-10 col-lg-9 d-inline-block" id="target-div">\ninside the tags\n</div>\n</body>\n</html>\n''')
 
 
 def example_html_creation():
@@ -58,7 +61,12 @@ def example_html_creation():
 
 # example_html_creation()
 
+
 print(TagFactory("div.col-10.col-lg-9.d-inline-block", (
                  TagFactory("div.dish-network", 'inside the last div')
                  ), id="target-div"))
+
+
+# print(TagAttributeDict(four="asdfasdf", id='asdf'))
+
 # print(TagFactory("div.col-10.col-lg-9.d-inline-block", '', id="target-div"))
