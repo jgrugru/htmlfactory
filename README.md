@@ -8,12 +8,16 @@ pip install htmlfactory
 
 Htmlfactory produces HTML through the class *TagFactory*.
 
->A *TagFactory* object that has an html tag (ex: 'div'),
->inner_html ojbect (could be a list of other tag objects or a string),
->and an attribute list containing attribute objects(ex: id="email-input").
+>A *TagFactory* consists of an html tag (ex: 'div'),
+>inner_html object (could be a list of other tag objects or a string),
+>and an attribute list (*TagAttributeList* object) containing *TagAttribute* objects (ex: id="email-input").
 
 ###### Behind the scenes
-*TagFactory* is very easy to understand.
+*TagFactory* is very easy to understand. 
+**__init__ function header for TagFactory**
+```
+  def __init__(self, tag_and_class_str: str, inner_html, **kwargs):
+```
 - The *tag_and_class_str* accepts a string with this format "*<tag>*.class1.class2.class3". An example would be "div.form-group.col-md-10" which produces this output: class="form-group col-md-10"
 - The *inner_html* parameter accepts either a list/tuple of TagFactory objects or a string. Passing TagFactory objects will make them a child tag. For example:
 ```
@@ -27,9 +31,6 @@ produces
 </div>
 ```
 
-```
-  def __init__(self, tag_and_class_str: str, inner_html, **kwargs):
-```
 How to Create a Tag
 -------------------
 ```
