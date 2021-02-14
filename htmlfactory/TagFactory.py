@@ -1,4 +1,4 @@
-from html5print import HTMLBeautifier
+# from html5print import HTMLBeautifier
 
 import sys
 import os.path
@@ -64,4 +64,5 @@ class TagFactory():
                + self.attr_concatenater(*self.class_list) \
                + str(self.TagAttributeList) \
                + ">" + str(self.inner_html) + "</" + self.tag + ">"
-        return HTMLBeautifier.beautify(html, 2)
+        return html
+        # return HTMLBeautifier.beautify(html, 2)

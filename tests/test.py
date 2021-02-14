@@ -40,31 +40,52 @@ def example_html_creation():
     ))
     print(body_tag_object)
     """Expected output -->
-    <body>
-        <div class='col-10 col-lg-9 d-inline-block' id='target-div'>inside the tags</div>
-        <div class='col-10 col-lg-3 d-inline-block'>well how about that</div>
-        <form class='input-handler'>
-            <div class='form-group'><label class=' foor='exampleInputEmail1'>Email Address</label>
-                <input class='form-control' id='exampleInputEmail1' ariadescribedby='emailHelp' placeholder='Enter email'></input>
-                <small class='form-text text-muted' id='emailHelp'>We'll never share your email with anyone else.</small>
+        <html>
+        <head>
+        </head>
+        <body>
+            <div class="col-10 col-lg-9 d-inline-block" id="target-div">
+            inside the tags
             </div>
-            <div class='form-group'><label class=' foor='exampleInputPassword1'>Password</label>
-                <input class='form-control' id='exampleInputPassword1' placeholder='Password'></input>
+            <div class="col-10 col-lg-3 d-inline-block">
+            well how about that
             </div>
-            <div class='form-check'><input class='form-check-input' id='exampleCheck1'></input>
-                <label class='form-check-label' foor='exampleCheck1'>Check me out</label>
+            <form class="input-handler">
+            <div class="form-group">
+                <labelfoor='exampleinputemail1'>
+                Email Address
+                </labelfoor='exampleinputemail1'>
+                <input ariadescribedby="emailHelp" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                <small class="form-text text-muted" id="emailHelp">
+                We'll never share your email with anyone else.
+                </small>
             </div>
-            <button class='btn btn-primary' type='submit'>Submit</button>
-        </form>
-    </body>"""
+            <div class="form-group">
+                <labelfoor='exampleinputpassword1'>
+                Password
+                </labelfoor='exampleinputpassword1'>
+                <input class="form-control" id="exampleInputPassword1" placeholder="Password">
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" foor="exampleCheck1">
+                Check me out
+                </label>
+            </div>
+            <button class="btn btn-primary" type="submit">
+                Submit
+            </button>
+            </form>
+        </body>
+        </html>"""
 
 
-example_html_creation()
+# example_html_creation()
 
 
-# print(TagFactory("div.col-10.col-lg-9.d-inline-block", (
-#                  TagFactory("div.dish-network", 'inside the last div')
-#                  ), id="target-div"))
+print(TagFactory("div.col-10.col-lg-9.d-inline-block", (
+                 TagFactory("div.dish-network", 'inside the last div')
+                 ), id="target-div"))
 
 
 # print(TagAttributeDict(four="asdfasdf", id='asdf'))
