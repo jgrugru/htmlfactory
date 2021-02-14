@@ -86,9 +86,13 @@ x = TagFactory("div.col-10.col-lg-9.d-inline-block", (
                TagFactory("div.dish-network",
                           'inside the last div')),
                id="target-div")
-print(x)
+# print(x)
 
 
+# print(TagFactory("div.parent-div", (TagFactory("div.first-child-div", (TagFactory("div.second-child-div", "It's party time."))))))
+# print(TagFactory("div.tag1.tag2.tag3.tag4.tag5", 'I have a lot of classes.'))
+print(TagFactory("div", 'I have an action and method attribute.', action="/action_page.php", method="get")
+)
 # print(TagAttributeDict(four="asdfasdf", id='asdf'))
 
 # print(TagFactory("div.col-10.col-lg-9.d-inline-block", '', id="target-div"))

@@ -1,7 +1,6 @@
 # htmlfactory
 A simple way to produce HTML with Python.
 
-Can be installed through pip:
 ```
 pip install htmlfactory
 ```
@@ -49,15 +48,15 @@ print(TagFactory("div.parent-div", (
 
 You can add as many classes as you want to your tag object:
 ```
-TagFactory("div.tag1.tag2.tag3.tag4.tag5", 'I have a lot of classes.')
+TagFactory("div.class1.class2.class3.class4.class5", 'I have a lot of classes.')
 
 # output:
-<div class='tag1 tag2 tag3 tag4 tag5'>I have a lot of classes.</div>
+<div class='class1 class2 class3 class4 class5'>I have a lot of classes.</div>
 ```
 
 You can add attributes to your tab object by using keyword arguments:
 ```
-TagFactory("form", 'I have an action and method attribute.')
+TagFactory("form", 'I have an action and method attribute.', action="/action_page.php", method="get")
 
 # output:
 <form action='/action_page.php' method='get'>I have an action and method attribute.</form>
