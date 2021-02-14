@@ -15,30 +15,32 @@ pip install htmlfactory
 
 **htmlfactory** makes making html easy to understand. There is no need to overcomplicate the production of a tag-based file.
 
-####Examples
+#### Examples:
 
 ```
 TagFactory("div.my-class", '')
-```
-produces
-```
+
+# output:
 <div class='my-class'></div>
 ```
 
 To add content between the divs, we can pass *TagFactory* objects or a string.
 ```
 TagFactory("div.my-class", 'I'm inside the div.')
-```
-produces
-```
+
+# output
 <div class='my-class'>I'm inside the div.</div>
 ```
 
+###### children tags example
 ```
-print(TagFactory("div.parent-div", (TagFactory("div.first-child-div", (TagFactory("div.second-child-div", "It's party time."))))))
-```
-produces
-```
+print(TagFactory("div.parent-div",
+    (TagFactory("div.first-child-div",
+    (TagFactory("div.second-child-div",
+    "It's party time."))))
+    ))
+
+# output:
 <div class='parent-div'>
   <div class='first-child-div'>
     <div class='second-child-div'>
@@ -51,18 +53,16 @@ produces
 You can add as many classes as you want to your tag object:
 ```
 TagFactory("div.tag1.tag2.tag3.tag4.tag5", 'I have a lot of classes.')
-```
-produces
-```
+
+# output:
 <div class='tag1 tag2 tag3 tag4 tag5'>I have a lot of classes.</div>
 ```
 
 You can add attributes to your tab object by using keyword arguments:
 ```
 TagFactory("form", 'I have an id and .')
-```
-produces
-```
+
+# output:
 <form action='/action_page.php' method='get'>I have an action and method attribute.</form>
 ```
 
