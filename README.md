@@ -10,6 +10,7 @@ pip install htmlfactory
 
 #### Examples:
 
+###### basic div example
 ```
 TagFactory("div.my-class", '')
 
@@ -26,6 +27,7 @@ TagFactory("div.my-class", 'I'm inside the div.')
 ```
 
 ###### children tags example
+
 ```
 print(TagFactory("div.parent-div", (
       TagFactory("div.first-child-div", (
@@ -40,6 +42,8 @@ print(TagFactory("div.parent-div", (
   </div>
 </div>
 ```
+
+###### multiple classes example
 
 You can add as many classes as you want to your tag object:
 ```
@@ -57,7 +61,7 @@ TagFactory("form", 'I have an action and method attribute.')
 <form action='/action_page.php' method='get'>I have an action and method attribute.</form>
 ```
 
-###### Behind the scenes
+#### Behind the scenes
 **htmlfactory** produces HTML through the class *TagFactory*.
 
 >A *TagFactory* object consists of an html tag (ex: 'div'),
