@@ -82,10 +82,11 @@ def example_html_creation():
 
 # example_html_creation()
 
-
-print(TagFactory("div.col-10.col-lg-9.d-inline-block", (
-                 TagFactory("div.dish-network", 'inside the last div')
-                 ), id="target-div"))
+x = TagFactory("div.col-10.col-lg-9.d-inline-block", (
+               TagFactory("div.dish-network",
+                          'inside the last div')),
+               id="target-div")
+print(x)
 
 
 # print(TagAttributeDict(four="asdfasdf", id='asdf'))
