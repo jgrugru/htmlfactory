@@ -7,12 +7,15 @@ Can be installed through pip:
 
 How to Create a Tag
 -------------------
-```print(TagFactory("div.col-10.col-lg-9.d-inline-block",
+```
+print(TagFactory("div.col-10.col-lg-9.d-inline-block",
          (TagFactory("div.dish-network",
           'inside the last div')),
-          id="target-div"))```
+          id="target-div"))
+```
 
 Output:
+
 ```
 <html>
   <head>
