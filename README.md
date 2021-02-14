@@ -56,7 +56,7 @@ TagFactory("div.class1.class2.class3.class4.class5", 'I have a lot of classes.')
 
 You can add attributes to your tab object by using keyword arguments:
 ```
-TagFactory("form", 'I have an action and method attribute.', action="/action_page.php", method="get")
+TagFactory("form", 'I have an action & method attribute.', action="/action_page.php", method="get")
 
 # output:
 <form action='/action_page.php' method='get'>I have an action and method attribute.</form>
@@ -79,40 +79,3 @@ TagFactory("form", 'I have an action and method attribute.', action="/action_pag
 ```
 - The *tag_and_class_str* accepts a string with this format "*<tag>*.class1.class2.class3". An example would be "div.form-group.col-md-10" which produces this output: class="form-group col-md-10"
 - The *inner_html* parameter accepts either a list/tuple of TagFactory objects or a string. Passing TagFactory objects will make them a child tag. For example:
-```
-TagFactory("div", (TagFactory("div, "child div")))
-```
-produces
-```
-<div class='parent-div'>
-  <div class='child-div'>
-  </div>
-</div>
-```
-
-How to Create a Tag
--------------------
-```
-print(TagFactory("div.col-10.col-lg-9.d-inline-block",
-         (TagFactory("div.dish-network",
-          'inside the last div')),
-          id="target-div"))
-```
-
-Output:
-
-```
-<html>
-  <head>
-  </head>
-  <body>
-    <div class="col-10 col-lg-9 d-inline-block" id="target-div">
-      <div class="dish-network">
-        inside the last div
-      </div>
-    </div>
-  </body>
-</html>
-```
-
-The class syntax for tags is based off of Emmet.
