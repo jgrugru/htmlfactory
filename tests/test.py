@@ -59,12 +59,12 @@ def example_html_creation():
     </body>"""
 
 
-# example_html_creation()
+example_html_creation()
 
 
-print(TagFactory("div.col-10.col-lg-9.d-inline-block", (
-                 TagFactory("div.dish-network", 'inside the last div')
-                 ), id="target-div"))
+# print(TagFactory("div.col-10.col-lg-9.d-inline-block", (
+#                  TagFactory("div.dish-network", 'inside the last div')
+#                  ), id="target-div"))
 
 
 # print(TagAttributeDict(four="asdfasdf", id='asdf'))
