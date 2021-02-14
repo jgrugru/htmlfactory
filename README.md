@@ -60,7 +60,7 @@ TagFactory("div.tag1.tag2.tag3.tag4.tag5", 'I have a lot of classes.')
 
 You can add attributes to your tab object by using keyword arguments:
 ```
-TagFactory("form", 'I have an id and .')
+TagFactory("form", 'I have an action and method attribute.')
 
 # output:
 <form action='/action_page.php' method='get'>I have an action and method attribute.</form>
