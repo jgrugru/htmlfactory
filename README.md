@@ -20,6 +20,7 @@ How to Create a Tag
       </div>
     </div>
   </body>
-</html>```
+</html>
+```
 
 The class syntax for tags is based off of Emmet.
