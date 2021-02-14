@@ -27,11 +27,9 @@ TagFactory("div.my-class", 'I'm inside the div.')
 
 ###### children tags example
 ```
-print(TagFactory("div.parent-div",
-    (TagFactory("div.first-child-div",
-    (TagFactory("div.second-child-div",
-    "It's party time."))))
-    ))
+print(TagFactory("div.parent-div", (
+      TagFactory("div.first-child-div", (
+        TagFactory("div.second-child-div", "It's party time."))))))
 
 # output:
 <div class='parent-div'>
