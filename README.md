@@ -6,14 +6,76 @@ Can be installed through pip:
 pip install htmlfactory
 ```
 
-Htmlfactory produces HTML through the class *TagFactory*.
+**htmlfactory** produces HTML through the class *TagFactory*.
 
->A *TagFactory* consists of an html tag (ex: 'div'),
->inner_html object (could be a list of other tag objects or a string),
+>A *TagFactory* object consists of an html tag (ex: 'div'),
+>inner_html object (*InnerHtml* object which accepts a list/tuple of other *TagFactory* objects or a string),
 >and an attribute list (*TagAttributeList* object) containing *TagAttribute* objects (ex: id="email-input").
 
+
+**htmlfactory** makes making html easy to understand. There is no need to overcomplicate the production of a tag-based file.
+
+####Examples
+
+```
+TagFactory("div.my-class", '')
+```
+produces
+```
+<div class='my-class'></div>
+```
+
+To add content between the divs, we can pass *TagFactory* objects or a string.
+```
+TagFactory("div.my-class", 'I'm inside the div.')
+```
+produces
+```
+<div class='my-class'>I'm inside the div.</div>
+```
+
+```
+print(TagFactory("div.parent-div", (TagFactory("div.first-child-div", (TagFactory("div.second-child-div", "It's party time."))))))
+```
+produces
+```
+<div class='parent-div'>
+  <div class='first-child-div'>
+    <div class='second-child-div'>
+      It's party time.
+    </div>
+  </div>
+</div>
+```
+
+You can add as many classes as you want to your tag object:
+```
+TagFactory("div.tag1.tag2.tag3.tag4.tag5", 'I have a lot of classes.')
+```
+produces
+```
+<div class='tag1 tag2 tag3 tag4 tag5'>I have a lot of classes.</div>
+```
+
+You can add attributes to your tab object by using keyword arguments:
+```
+TagFactory("form", 'I have an id and .')
+```
+produces
+```
+<form action='/action_page.php' method='get'>I have an action and method attribute.</form>
+```
+
+
+
+
+
+
+
+
+
 ###### Behind the scenes
-*TagFactory* is very easy to understand. 
+*TagFactory* is very easy to understand.
 **__init__ function header for TagFactory**
 ```
   def __init__(self, tag_and_class_str: str, inner_html, **kwargs):
