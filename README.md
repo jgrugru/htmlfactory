@@ -9,7 +9,8 @@ How to Create a Tag
 -------------------
 ```print(TagFactory("div.col-10.col-lg-9.d-inline-block", (TagFactory("div.dish-network", 'inside the last div')), id="target-div"))```
 ---> output
-```<html>
+```
+<html>
   <head>
   </head>
   <body>
