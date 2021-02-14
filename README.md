@@ -6,13 +6,6 @@ Can be installed through pip:
 pip install htmlfactory
 ```
 
-**htmlfactory** produces HTML through the class *TagFactory*.
-
->A *TagFactory* object consists of an html tag (ex: 'div'),
->inner_html object (*InnerHtml* object which accepts a list/tuple of other *TagFactory* objects or a string),
->and an attribute list (*TagAttributeList* object) containing *TagAttribute* objects (ex: id="email-input").
-
-
 **htmlfactory** makes making html easy to understand. There is no need to overcomplicate the production of a tag-based file.
 
 #### Examples:
@@ -66,16 +59,13 @@ TagFactory("form", 'I have an action and method attribute.')
 <form action='/action_page.php' method='get'>I have an action and method attribute.</form>
 ```
 
-
-
-
-
-
-
-
-
 ###### Behind the scenes
-*TagFactory* is very easy to understand.
+**htmlfactory** produces HTML through the class *TagFactory*.
+
+>A *TagFactory* object consists of an html tag (ex: 'div'),
+>inner_html object (*InnerHtml* object which accepts a list/tuple of other *TagFactory* objects or a string),
+>and an attribute list (*TagAttributeList* object) containing *TagAttribute* objects (ex: id="email-input").
+
 **__init__ function header for TagFactory**
 ```
   def __init__(self, tag_and_class_str: str, inner_html, **kwargs):
