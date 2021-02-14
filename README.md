@@ -26,7 +26,7 @@ TagFactory("div.my-class", 'I'm inside the div.')
 <div class='my-class'>I'm inside the div.</div>
 ```
 
-###### children tags example
+###### children div example
 
 ```
 print(TagFactory("div.parent-div", (
@@ -42,6 +42,8 @@ print(TagFactory("div.parent-div", (
   </div>
 </div>
 ```
+>Note:
+>Even if only passing one TagFactory object as a child, wrap it in brackets or parentheses. The inner_html parameter only accepts lists, tuples, and strings.
 
 ###### multiple classes example
 
@@ -61,6 +63,10 @@ TagFactory("form", 'I have an action and method attribute.')
 <form action='/action_page.php' method='get'>I have an action and method attribute.</form>
 ```
 
+>Note:
+>'for' is a keyword so it cannot be used as a keyword argument. Instead use *four.*
+>Example: ```TagFactory("div.my-class", "inside the div", four="my-form")```
+
 #### Behind the scenes
 **htmlfactory** produces HTML through the class *TagFactory*.
 
@@ -68,7 +74,7 @@ TagFactory("form", 'I have an action and method attribute.')
 >inner_html object (*InnerHtml* object which accepts a list/tuple of other *TagFactory* objects or a string),
 >and an attribute list (*TagAttributeList* object) containing *TagAttribute* objects (ex: id="email-input").
 
-**__init__ function header for TagFactory**
+**function header for TagFactory**
 ```
   def __init__(self, tag_and_class_str: str, inner_html, **kwargs):
 ```
