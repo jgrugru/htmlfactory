@@ -32,9 +32,9 @@ TagFactory("div.my-class",  TagFactory("div", "child tag"))
 
 # output
 <div class="my-class">
-   <div>
-     child tag
-   </div>
+  <div>
+    child tag
+  </div>
 </div>
 ```
 
@@ -85,10 +85,10 @@ print(TagFactory('div', TagFactory('form')).pretty_str(add_html_tags=True))
 # <head>
 # </head>
 # <body>
-#    <div>
+#   <div>
 #     <form>
 #     </form>
-#    </div>
+#   </div>
 # </body>
 #</html>
 ```
@@ -119,7 +119,7 @@ TagFactory("form", 'I have an action & method attribute.', action="/action_page.
 >please omit the dash. The dash will be added upon creation of the object.
 
 ```
-TagFactory("div", '', role="application", ariadescribedby="info")
+TagFactory("div", role="application", ariadescribedby="info")
 
 # output
 <div role='application' aria-describedby='info'></div>

@@ -30,6 +30,41 @@ def example_html_creation():
         ))
     ))
     print(body_tag_object.pretty_str())
-
+"""
+<body>
+ <div class="col-10 col-lg-9 d-inline-block" id="target-div">
+  inside the tags
+ </div>
+ <div class="col-10 col-lg-3 d-inline-block">
+  well how about that
+ </div>
+ <form class="input-handler">
+  <div class="form-group">
+   <label for="exampleInputEmail1">
+    Email Address
+   </label>
+   <input aria-describedby="emailHelp" class="form-control" id="exampleInputEmail1" placeholder="Enter email"/>
+   <small class="form-text text-muted" id="emailHelp">
+    We'll never share your email with anyone else.
+   </small>
+  </div>
+  <div class="form-group">
+   <label for="exampleInputPassword1">
+    Password
+   </label>
+   <input class="form-control" id="exampleInputPassword1" placeholder="Password"/>
+  </div>
+  <div class="form-check">
+   <input class="form-check-input" id="exampleCheck1"/>
+   <label class="form-check-label" for="exampleCheck1">
+    Check me out
+   </label>
+  </div>
+  <button class="btn btn-primary" type="submit">
+   Submit
+  </button>
+ </form>
+</body>
+"""
 
 example_html_creation()
