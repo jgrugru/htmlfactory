@@ -5,6 +5,7 @@ import os.path
 sys.path.append(
     os.path.abspath(os.path.dirname(__file__)))
 
+from bs4 import BeautifulSoup
 from InnerHtml import InnerHtml
 from TagAttributeList import TagAttributeList
 
@@ -33,35 +34,44 @@ class TagFactory():
            (example input: 'div.col-md-10.col-10')."""
 
         tag_and_class_list = self.split_str_by_period(tag_and_class_str)
-        if tag_and_class_list[0] in self.list_of_tags:
-            self.tag = tag_and_class_list[0]
-        else:
-            self.tag = None
+        # if tag_and_class_list[0] in self.list_of_tags:
+        #     self.tag = tag_and_class_list[0]
+        # else:
+        #     self.tag = None
+
+        self.tag = tag_and_class_list[0]
 
         if len(tag_and_class_list) > 0:
             self.class_list = tag_and_class_list[1:]
         else:
             self.class_list = ''
 
-    def attr_concatenater(self, *args, **kwargs):
+    def class_concatenater(self, *args, **kwargs):
         """This function creates a string with all of the html
-           attributes concatenated together."""
+           classes concatenated together."""
 
         if(len(args) == 0):
             return ''
-        attr_str = " class="
+        return_class_str = " class="
         for counter, klass in enumerate(args):
             if counter == 0:
-                attr_str += "\'" + klass
+                return_class_str += "\'" + klass
             else:
-                attr_str += ' ' + klass
-        attr_str += "\'"
-        return attr_str
+                return_class_str += ' ' + klass
+        return_class_str += "\'"
+        return return_class_str
+
+    def pretty_str(self, add_html_tags = False):
+        if add_html_tags:
+            soup = BeautifulSoup(str(self), features="html5lib")
+        else:
+            soup = BeautifulSoup(str(self), features="html.parser")
+        return soup.prettify()
 
     def __str__(self):
         """This function produces the usable html."""
         html = "<" + self.tag \
-               + self.attr_concatenater(*self.class_list) \
+               + self.class_concatenater(*self.class_list) \
                + str(self.TagAttributeList) \
                + ">" + str(self.inner_html) + "</" + self.tag + ">"
         return html

@@ -13,10 +13,10 @@ class InnerHtml():
             return False
 
     def concatenate_children(self, iterable_object):
-        inside_tags_str = ""
+        children_tags_return_str = ""
         for tag_object in iterable_object:
-            inside_tags_str += str(tag_object) + '\n'
-        return inside_tags_str
+            children_tags_return_str += str(tag_object)
+        return children_tags_return_str
 
     def __str__(self):
         if self.is_list_or_tuple(self.inner_html):

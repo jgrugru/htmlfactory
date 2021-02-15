@@ -9,4 +9,4 @@ class TagAttribute():
             self.attr = 'for'
         elif self.attr == 'acceptcharset':
             self.attr = 'accept-charset'
-        return self.attr + '=' + "\'" + self.attr_value + "\'"
+        return " " + self.attr + '=' + "\'" + self.attr_value + "\'"
