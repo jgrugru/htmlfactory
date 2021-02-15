@@ -9,4 +9,6 @@ class TagAttribute():
             self.attr = 'for'
         elif self.attr == 'acceptcharset':
             self.attr = 'accept-charset'
+        elif self.attr == 'ariadescribedby':
+            self.attr = 'aria-describedby'
         return " " + self.attr + '=' + "\'" + self.attr_value + "\'"

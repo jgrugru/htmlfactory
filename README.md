@@ -1,49 +1,50 @@
 # htmlfactory     [![Build Status](https://travis-ci.com/jgrugru/htmlfactory.svg?branch=main)](https://travis-ci.com/jgrugru/htmlfactory)
 A simple way to produce HTML with Python.
-
+Source code can be found on [github](https://github.com/jgrugru/htmlfactory).
 ```
 pip install htmlfactory
 ```
 
-**htmlfactory** makes making html easy to understand. There is no need to overcomplicate the production of a tag-based file.
+**htmlfactory** makes making html easy to understand.
 
 #### Examples:
 
 ###### basic div example
 ```
-TagFactory("div.my-class", '')
+TagFactory("div.my-class")
 
 # output:
-<div class='my-class'></div>
+<div class='my-class'> </div>
 ```
 
-To add content between the divs, we can pass a string or pass *TagFactory* objects in a list/tuple.
+To add content between the divs, we can pass a string or *TagFactory* objects.
 ```
 # pass a string
-TagFactory("div.my-class", 'I'm inside the div.')
+TagFactory("div.my-class", 'I am inside the div.')
 
 # output
-<div class='my-class'>I'm inside the div.</div>
+<div class='my-class'>I am inside the div.</div>
 ```
 
 ```
-# pass a list with one *TagFactory* object
-TagFactory("div.my-class", [TagFactory("div", "child tag")])
+# pass a TagFactory object
+TagFactory("div.my-class",  TagFactory("div", "child tag"))
 
 # output
-<div class='my-class'>
-  <div>
-    child tag
-  </div>
+<div class="my-class">
+   <div>
+     child tag
+   </div>
 </div>
 ```
 
 ###### children div example
 
+pass a list of *TagFactory* objects
 ```
-print(TagFactory("div.parent-div", (
+TagFactory("div.parent-div", [
       TagFactory("div.first-child-div", (
-        TagFactory("div.second-child-div", "It's party time."))))))
+        TagFactory("div.second-child-div", "It's party time.")))])
 
 # output:
 <div class='parent-div'>
@@ -55,8 +56,42 @@ print(TagFactory("div.parent-div", (
 </div>
 ```
 >Note:
->Even if only passing one TagFactory object as a child, wrap it in brackets or parentheses. The inner_html parameter only accepts lists, tuples, and strings.
+>Children tags can be passed through a list, tuple, or singular *TagFactory* object.
 
+###### printing *TagFactory* objects
+
+To output a TagFactory object, use print.
+```
+print(TagFactory('div', TagFactory('form')))
+# output:
+<div><form></form></div>
+```
+
+Use the function *pretty_str()* for an indented output.
+```
+print(TagFactory('div', TagFactory('form')).pretty_str())
+#output:
+# <div>
+#   <form>
+#   </form>
+# </div>
+```
+
+If you would like an HTML, body, and head tag to be included, pass *add_html_tags=True*.
+```
+print(TagFactory('div', TagFactory('form')).pretty_str(add_html_tags=True))
+# output:
+# <html>
+# <head>
+# </head>
+# <body>
+#    <div>
+#     <form>
+#     </form>
+#    </div>
+# </body>
+#</html>
+```
 ###### multiple classes example
 
 You can add as many classes as you want to your tag object:
@@ -66,6 +101,7 @@ TagFactory("div.class1.class2.class3.class4.class5", 'I have a lot of classes.')
 # output:
 <div class='class1 class2 class3 class4 class5'>I have a lot of classes.</div>
 ```
+###### adding attributes example
 
 You can add attributes to your tab object by using keyword arguments:
 ```
@@ -78,19 +114,26 @@ TagFactory("form", 'I have an action & method attribute.', action="/action_page.
 >Note:
 >'for' is a keyword so it cannot be used as a keyword argument. Instead use 'four'.
 >Example: ```TagFactory("div.my-class", "inside the div", four="my-form")```
+
 >Dashes (-) also cause a similar problem. For all html attributes that require a dash, 
 >please omit the dash. The dash will be added upon creation of the object.
 
-#### Behind the scenes
-**htmlfactory** produces HTML through the class *TagFactory*.
+```
+TagFactory("div", '', role="application", ariadescribedby="info")
 
->A *TagFactory* object consists of an html tag (ex: 'div'),
->inner_html object (*InnerHtml* object which accepts a list/tuple of other *TagFactory* objects or a string),
->and an attribute list (*TagAttributeList* object) containing *TagAttribute* objects (ex: id="email-input").
+# output
+<div role='application' aria-describedby='info'></div>
+```
+
+#### Behind the scenes
 
 **init function header for TagFactory**
 ```
-  def __init__(self, tag_and_class_str: str, inner_html, **kwargs):
+def __init__(self, tag_and_class_str: str, inner_html = '', **kwargs):
 ```
-- The *tag_and_class_str* accepts a string with this format "*<tag>*.class1.class2.class3". An example would be "div.form-group.col-md-10" which produces this output: class="form-group col-md-10"
-- The *inner_html* parameter accepts either a list/tuple of TagFactory objects or a string.
+>A *TagFactory* object consists of:
+ - an html tag (ex: 'div'),
+ - inner_html object (*InnerHtml* object which accepts a *TagFactory*  object, list/tuple of *TagFactory* objects or a string),
+ - and an attribute list (*TagAttributeList* object) containing *TagAttribute* objects (ex: id="email-input").
+
+- The *tag_and_class_str* accepts a string with this format "*tag*.class1.class2.class3". An example would be "div.form-group.col-md-10" which produces this output: ```class="form-group col-md-10"```

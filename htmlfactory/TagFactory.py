@@ -12,13 +12,12 @@ from TagAttributeList import TagAttributeList
 
 class TagFactory():
     """A tag object that has an html tag (ex: 'div'),
-       inner_html ojbect (could be a list of other tag objects or a string),
+       inner_html ojbect (could be a single TagFactory ojbect
+       or a list/tuple of other TagFactory objects or a string),
        and attribute list containing attribute objects."""
 
-    def __init__(self, tag_and_class_str: str, inner_html,
+    def __init__(self, tag_and_class_str: str, inner_html = '',
                  **kwargs):
-        self.list_of_tags = ("body", "document", "div", "h1", "form",
-                             "input", "small", "button", "label")
         self.inner_html = InnerHtml(inner_html)
         self.TagAttributeList = TagAttributeList(**kwargs)
         self.cleanse_tag_and_class_str(tag_and_class_str)
@@ -34,10 +33,6 @@ class TagFactory():
            (example input: 'div.col-md-10.col-10')."""
 
         tag_and_class_list = self.split_str_by_period(tag_and_class_str)
-        # if tag_and_class_list[0] in self.list_of_tags:
-        #     self.tag = tag_and_class_list[0]
-        # else:
-        #     self.tag = None
 
         self.tag = tag_and_class_list[0]
 
