@@ -17,12 +17,25 @@ TagFactory("div.my-class", '')
 <div class='my-class'></div>
 ```
 
-To add content between the divs, we can pass *TagFactory* objects or a string.
+To add content between the divs, we can pass a string or pass *TagFactory* objects in a list/tuple.
 ```
+# pass a string
 TagFactory("div.my-class", 'I'm inside the div.')
 
 # output
 <div class='my-class'>I'm inside the div.</div>
+```
+
+```
+# pass a list with one *TagFactory* object
+TagFactory("div.my-class", [TagFactory("div", "child tag")])
+
+# output
+<div class='my-class'>
+  <div>
+    child tag
+  </div>
+</div>
 ```
 
 ###### children div example
@@ -63,8 +76,10 @@ TagFactory("form", 'I have an action & method attribute.', action="/action_page.
 ```
 
 >Note:
->'for' is a keyword so it cannot be used as a keyword argument. Instead use *four.*
+>'for' is a keyword so it cannot be used as a keyword argument. Instead use 'four'.
 >Example: ```TagFactory("div.my-class", "inside the div", four="my-form")```
+>Dashes (-) also cause a similar problem. For all html attributes that require a dash, 
+>please omit the dash. The dash will be added upon creation of the object.
 
 #### Behind the scenes
 **htmlfactory** produces HTML through the class *TagFactory*.
@@ -73,9 +88,9 @@ TagFactory("form", 'I have an action & method attribute.', action="/action_page.
 >inner_html object (*InnerHtml* object which accepts a list/tuple of other *TagFactory* objects or a string),
 >and an attribute list (*TagAttributeList* object) containing *TagAttribute* objects (ex: id="email-input").
 
-**function header for TagFactory**
+**init function header for TagFactory**
 ```
   def __init__(self, tag_and_class_str: str, inner_html, **kwargs):
 ```
 - The *tag_and_class_str* accepts a string with this format "*<tag>*.class1.class2.class3". An example would be "div.form-group.col-md-10" which produces this output: class="form-group col-md-10"
-- The *inner_html* parameter accepts either a list/tuple of TagFactory objects or a string. Passing TagFactory objects will make them a child tag. For example:
+- The *inner_html* parameter accepts either a list/tuple of TagFactory objects or a string.
