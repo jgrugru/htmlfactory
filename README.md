@@ -1,4 +1,4 @@
-# htmlfactory
+# htmlfactory     [![Build Status](https://travis-ci.com/jgrugru/htmlfactory.svg?branch=main)](https://travis-ci.com/jgrugru/htmlfactory)
 A simple way to produce HTML with Python.
 
 ```
