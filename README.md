@@ -1,16 +1,16 @@
 # htmlfactory     [![Build Status](https://travis-ci.com/jgrugru/htmlfactory.svg?branch=main)](https://travis-ci.com/jgrugru/htmlfactory)
 A simple way to produce HTML with Python.
 Source code can be found on [github](https://github.com/jgrugru/htmlfactory).
-```
+```Python
 pip install htmlfactory
 ```
 
-**htmlfactory** makes making html easy to understand.
+**htmlfactory** simplifies the process of making HTML through Python.
 
 #### Examples:
 
 ###### basic div example
-```
+```Python
 TagFactory("div.my-class")
 
 # output:
@@ -18,7 +18,7 @@ TagFactory("div.my-class")
 ```
 
 To add content between the divs, we can pass a string or *TagFactory* objects.
-```
+```Python
 # pass a string
 TagFactory("div.my-class", 'I am inside the div.')
 
@@ -26,7 +26,7 @@ TagFactory("div.my-class", 'I am inside the div.')
 <div class='my-class'>I am inside the div.</div>
 ```
 
-```
+```Python
 # pass a TagFactory object
 TagFactory("div.my-class",  TagFactory("div", "child tag"))
 
@@ -41,7 +41,7 @@ TagFactory("div.my-class",  TagFactory("div", "child tag"))
 ###### children div example
 
 pass a list of *TagFactory* objects
-```
+```Python
 TagFactory("div.parent-div", [
       TagFactory("div.first-child-div", (
         TagFactory("div.second-child-div", "It's party time.")))])
@@ -61,14 +61,14 @@ TagFactory("div.parent-div", [
 ###### printing *TagFactory* objects
 
 To output a TagFactory object, use print.
-```
+```Python
 print(TagFactory('div', TagFactory('form')))
 # output:
-<div><form></form></div>
+# <div><form></form></div>
 ```
 
 Use the function *pretty_str()* for an indented output.
-```
+```Python
 print(TagFactory('div', TagFactory('form')).pretty_str())
 #output:
 # <div>
@@ -78,7 +78,7 @@ print(TagFactory('div', TagFactory('form')).pretty_str())
 ```
 
 If you would like an HTML, body, and head tag to be included, pass *add_html_tags=True*.
-```
+```Python
 print(TagFactory('div', TagFactory('form')).pretty_str(add_html_tags=True))
 # output:
 # <html>
@@ -95,7 +95,7 @@ print(TagFactory('div', TagFactory('form')).pretty_str(add_html_tags=True))
 ###### multiple classes example
 
 You can add as many classes as you want to your tag object:
-```
+```Python
 TagFactory("div.class1.class2.class3.class4.class5", 'I have a lot of classes.')
 
 # output:
@@ -104,7 +104,7 @@ TagFactory("div.class1.class2.class3.class4.class5", 'I have a lot of classes.')
 ###### adding attributes example
 
 You can add attributes to your tab object by using keyword arguments:
-```
+```Python
 TagFactory("form", 'I have an action & method attribute.', action="/action_page.php", method="get")
 
 # output:
@@ -118,10 +118,15 @@ TagFactory("form", 'I have an action & method attribute.', action="/action_page.
 >Dashes (-) also cause a similar problem. For all html attributes that require a dash, 
 >please omit the dash. The dash will be added upon creation of the object.
 
-```
+```Python
 # with an omitted dash
 TagFactory("div", role="application", ariadescribedby="info")
 
 # output
 <div role='application' aria-describedby='info'></div>
 ```
+
+
+Possible Features to Add
+------------------------
+- add CDN, header, meta, links (Tags that do not require a closing tag)
