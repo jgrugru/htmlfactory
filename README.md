@@ -14,7 +14,7 @@ pip install htmlfactory
 TagFactory("div.my-class")
 
 # output:
-<div class='my-class'> </div>
+<div class='my-class'></div>
 ```
 
 To add content between the divs, we can pass a string or *TagFactory* objects.
@@ -90,7 +90,7 @@ print(TagFactory('div', TagFactory('form')).pretty_str(add_html_tags=True))
 #     </form>
 #   </div>
 # </body>
-#</html>
+# </html>
 ```
 ###### multiple classes example
 
@@ -119,21 +119,9 @@ TagFactory("form", 'I have an action & method attribute.', action="/action_page.
 >please omit the dash. The dash will be added upon creation of the object.
 
 ```
+# with an omitted dash
 TagFactory("div", role="application", ariadescribedby="info")
 
 # output
 <div role='application' aria-describedby='info'></div>
 ```
-
-#### Behind the scenes
-
-**init function header for TagFactory**
-```
-def __init__(self, tag_and_class_str: str, inner_html = '', **kwargs):
-```
->A *TagFactory* object consists of:
- - an html tag (ex: 'div'),
- - inner_html object (*InnerHtml* object which accepts a *TagFactory*  object, list/tuple of *TagFactory* objects or a string),
- - and an attribute list (*TagAttributeList* object) containing *TagAttribute* objects (ex: id="email-input").
-
-- The *tag_and_class_str* accepts a string with this format "*tag*.class1.class2.class3". An example would be "div.form-group.col-md-10" which produces this output: ```class="form-group col-md-10"```
