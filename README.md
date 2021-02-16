@@ -13,8 +13,10 @@ pip install htmlfactory
 ```Python
 TagFactory("div.my-class")
 
-# output:
-# <div class='my-class'></div>
+```
+output:
+```html
+<div class='my-class'></div>
 ```
 
 To add content between the divs, we can pass a string or *TagFactory* objects.
@@ -22,20 +24,24 @@ To add content between the divs, we can pass a string or *TagFactory* objects.
 # pass a string
 TagFactory("div.my-class", 'I am inside the div.')
 
-# output:
-# <div class='my-class'>I am inside the div.</div>
+```
+output:
+```html
+<div class='my-class'>I am inside the div.</div>
 ```
 
 ```Python
 # pass a TagFactory object
 TagFactory("div.my-class",  TagFactory("div", "child tag"))
 
-# output
-# <div class="my-class">
-#   <div>
-#     child tag
-#   </div>
-# </div>
+```
+output:
+```html
+<div class="my-class">
+  <div>
+    child tag
+  </div>
+</div>
 ```
 
 ###### children div example
@@ -46,14 +52,16 @@ TagFactory("div.parent-div", [
       TagFactory("div.first-child-div", (
         TagFactory("div.second-child-div", "It's party time.")))])
 
-# output:
-# <div class='parent-div'>
-#   <div class='first-child-div'>
-#     <div class='second-child-div'>
-#       It's party time.
-#     </div>
-#   </div>
-# </div>
+```
+output:
+```html
+<div class='parent-div'>
+  <div class='first-child-div'>
+    <div class='second-child-div'>
+      It's party time.
+    </div>
+  </div>
+</div>
 ```
 >Note:
 >Children tags can be passed through a list, tuple, or singular *TagFactory* object.
@@ -63,52 +71,60 @@ TagFactory("div.parent-div", [
 To output a TagFactory object, use print.
 ```Python
 print(TagFactory('div', TagFactory('form')))
-# output:
-# <div><form></form></div>
+```
+output:
+```html
+<div><form></form></div>
 ```
 
 Use the function *pretty_str()* for an indented output.
 ```Python
 print(TagFactory('div', TagFactory('form')).pretty_str())
-#output:
-# <div>
-#   <form>
-#   </form>
-# </div>
+```
+output:
+```html
+<div>
+  <form>
+  </form>
+</div>
 ```
 
 If you would like an HTML, body, and head tag to be included, pass *add_html_tags=True*.
 ```Python
 print(TagFactory('div', TagFactory('form')).pretty_str(add_html_tags=True))
-# output:
-# <html>
-# <head>
-# </head>
-# <body>
-#   <div>
-#     <form>
-#     </form>
-#   </div>
-# </body>
-# </html>
+```
+output:
+```html
+<html>
+<head>
+</head>
+<body>
+  <div>
+    <form>
+    </form>
+  </div>
+</body>
+</html>
 ```
 ###### multiple classes example
 
 You can add as many classes as you want to your tag object:
 ```Python
 TagFactory("div.class1.class2.class3.class4.class5", 'I have a lot of classes.')
-
-# output:
-# <div class='class1 class2 class3 class4 class5'>I have a lot of classes.</div>
+```
+output:
+```html
+<div class='class1 class2 class3 class4 class5'>I have a lot of classes.</div>
 ```
 ###### adding attributes example
 
 You can add attributes to your tab object by using keyword arguments:
 ```Python
 TagFactory("form", 'I have an action & method attribute.', action="/action_page.php", method="get")
-
-# output:
-# <form action='/action_page.php' method='get'>I have an action and method attribute.</form>
+```
+output:
+```html
+<form action='/action_page.php' method='get'>I have an action and method attribute.</form>
 ```
 
 >Note:
@@ -122,6 +138,7 @@ TagFactory("form", 'I have an action & method attribute.', action="/action_page.
 # with an omitted dash
 TagFactory("div", role="application", ariadescribedby="info")
 ```
+output:
 ```html
 <div role='application' aria-describedby='info'></div>
 ```
