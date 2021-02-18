@@ -3,8 +3,8 @@ class InnerHtml():
        to either be a str, single TagFactory object, or a list/tuple of
        TagFactory objects"""
 
-    def __init__(self, inner_html):
-        self.inner_html = inner_html
+    def __init__(self):
+        self.inner_html = []
 
     def is_list_or_tuple(self, an_object):
         if type(an_object) == tuple or type(an_object) == list:
@@ -23,7 +23,7 @@ class InnerHtml():
             self.inner_html = []
         self.inner_html.append(tag_factory_object)
 
-    def add_str(self, html_str):
+    def set_to_str(self, html_str):
         self.inner_html = html_str
 
     def __str__(self):

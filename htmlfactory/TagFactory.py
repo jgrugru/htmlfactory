@@ -16,7 +16,8 @@ class TagFactory():
 
     def __init__(self, tag_and_class_str: str, inner_html = '',
                  **kwargs):
-        self.inner_html = InnerHtml(inner_html)
+        self.inner_html = InnerHtml()
+        self.add_child_element(inner_html)
         self.TagAttributeList = TagAttributeList(**kwargs)
         self.cleanse_tag_and_class_str(tag_and_class_str)
 
@@ -57,7 +58,7 @@ class TagFactory():
     def add_child_element(self, *args):
         for html_element in args:
             if type(html_element) == str:
-                self.inner_html.add_str(html_element)
+                self.inner_html.set_to_str(html_element)
             elif type(html_element) == TagFactory:
                 self.inner_html.add_tag_factory_object(html_element)
             if type(html_element) == list or type(html_element) == tuple:

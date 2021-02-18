@@ -142,8 +142,3 @@ TagFactory("div", role="application", ariadescribedby="info")
 ```html
 <div role='application' aria-describedby='info'></div>
 ```
-
-
-Possible Features to Add
-------------------------
-- add CDN, header, meta, links (Tags that do not require a closing tag)

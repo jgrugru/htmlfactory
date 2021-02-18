@@ -68,12 +68,3 @@ def example_html_creation():
 """
 
 # example_html_creation()
-
-
-
-def list_body_example():
-    html_body = TagFactory("footer.footer")
-    html_body.add_child_element(TagFactory("child"))
-    print(html_body)
-
-list_body_example()

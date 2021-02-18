@@ -73,7 +73,8 @@ def test_omitted_dash():
 def test_add_child_element():
     test_tag = TagFactory("footer.footer")
     test_tag.add_child_element((TagFactory("div.container")))
-    assert(str(test_tag) == '''<footer class='footer'><div class='container'></div></footer>''')
+    assert(str(test_tag) == '''<footer class='footer'>'''
+                            + '''<div class='container'></div></footer>''')
 
 
 def test_add_child_element_list():
@@ -83,22 +84,34 @@ def test_add_child_element_list():
     for x in range(3):
         child_list.append(child_tag)
     test_tag.add_child_element(child_list)
-    assert(str(test_tag) == '''<test_tag><div></div><div></div><div></div></test_tag>''')
+    assert(str(test_tag) == '<test_tag><div></div><div>'
+                            + '</div><div></div></test_tag>')
+
 
 def test_add_child_element_with_child_element():
     test_tag = TagFactory("test_tag")
     test_tag.add_child_element([
       TagFactory("div.container", TagFactory("div1"))
     ])
-    assert(str(test_tag) == '''<test_tag><div class='container'><div1></div1></div></test_tag>''')
+    assert(str(test_tag) == '''<test_tag><div class='container'>'''
+                            + '<div1></div1></div></test_tag>')
+
 
 def test_add_child_element_recursion():
     test_tag = TagFactory("test_tag")
     test_tag.add_child_element([
-      TagFactory("div.container",
-        TagFactory("div1",
-          TagFactory("div2",
-            TagFactory("div3",
-              TagFactory("div4")))))
+        TagFactory("div.container",
+          TagFactory("div1",
+            TagFactory("div2",
+              TagFactory("div3",
+                TagFactory("div4")))))
     ])
-    assert(str(test_tag) == '''<test_tag><div class='container'><div1><div2><div3><div4></div4></div3></div2></div1></div></test_tag>''')
+    assert(str(test_tag) == '''<test_tag><div class='container'><div1><div2>'''
+                            + '<div3><div4></div4></div3></div2>'
+                            + '</div1></div></test_tag>')
+
+
+def test_add_child_element_with_existing_child_element():
+    test_tag = TagFactory("test_tag", TagFactory("div"))
+    test_tag.add_child_element(TagFactory("child"))
+    assert(str(test_tag) == '<test_tag><div></div><child></child></test_tag>')
