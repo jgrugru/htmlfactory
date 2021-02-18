@@ -1,5 +1,3 @@
-# from html5print import HTMLBeautifier
-
 import sys
 import os.path
 sys.path.append(
@@ -41,7 +39,7 @@ class TagFactory():
         else:
             self.class_list = ''
 
-    def class_concatenater(self, *args, **kwargs):
+    def class_concatenater(self, *args):
         """This function creates a string with all of the html
            classes concatenated together."""
 
@@ -55,6 +53,15 @@ class TagFactory():
                 return_class_str += ' ' + klass
         return_class_str += "\'"
         return return_class_str
+
+    def add_child_element(self, *args):
+        for html_element in args:
+            if type(html_element) == str:
+                self.inner_html.add_str(html_element)
+            elif type(html_element) == TagFactory:
+                self.inner_html.add_tag_factory_object(html_element)
+            if type(html_element) == list or type(html_element) == tuple:
+                self.add_child_element(*html_element)
 
     def pretty_str(self, add_html_tags = False):
         if add_html_tags:
@@ -70,4 +77,3 @@ class TagFactory():
                + str(self.TagAttributeList) \
                + ">" + str(self.inner_html) + "</" + self.tag + ">"
         return html
-        # return HTMLBeautifier.beautify(html, 2)

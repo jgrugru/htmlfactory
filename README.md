@@ -14,7 +14,7 @@ pip install htmlfactory
 TagFactory("div.my-class")
 
 ```
-output:
+
 ```html
 <div class='my-class'></div>
 ```
@@ -25,7 +25,7 @@ To add content between the divs, we can pass a string or *TagFactory* objects.
 TagFactory("div.my-class", 'I am inside the div.')
 
 ```
-output:
+
 ```html
 <div class='my-class'>I am inside the div.</div>
 ```
@@ -35,7 +35,7 @@ output:
 TagFactory("div.my-class",  TagFactory("div", "child tag"))
 
 ```
-output:
+
 ```html
 <div class="my-class">
   <div>
@@ -53,7 +53,7 @@ TagFactory("div.parent-div", [
         TagFactory("div.second-child-div", "It's party time.")))])
 
 ```
-output:
+
 ```html
 <div class='parent-div'>
   <div class='first-child-div'>
@@ -72,7 +72,7 @@ To output a TagFactory object, use print.
 ```Python
 print(TagFactory('div', TagFactory('form')))
 ```
-output:
+
 ```html
 <div><form></form></div>
 ```
@@ -81,7 +81,7 @@ Use the function *pretty_str()* for an indented output.
 ```Python
 print(TagFactory('div', TagFactory('form')).pretty_str())
 ```
-output:
+
 ```html
 <div>
   <form>
@@ -93,7 +93,7 @@ If you would like an HTML, body, and head tag to be included, pass *add_html_tag
 ```Python
 print(TagFactory('div', TagFactory('form')).pretty_str(add_html_tags=True))
 ```
-output:
+
 ```html
 <html>
 <head>
@@ -112,7 +112,7 @@ You can add as many classes as you want to your tag object:
 ```Python
 TagFactory("div.class1.class2.class3.class4.class5", 'I have a lot of classes.')
 ```
-output:
+
 ```html
 <div class='class1 class2 class3 class4 class5'>I have a lot of classes.</div>
 ```
@@ -122,7 +122,7 @@ You can add attributes to your tab object by using keyword arguments:
 ```Python
 TagFactory("form", 'I have an action & method attribute.', action="/action_page.php", method="get")
 ```
-output:
+
 ```html
 <form action='/action_page.php' method='get'>I have an action and method attribute.</form>
 ```
@@ -132,13 +132,13 @@ output:
 >Example: ```TagFactory("div.my-class", "inside the div", four="my-form")```
 
 >Dashes (-) also cause a similar problem. For all html attributes that require a dash, 
->please omit the dash. The dash will be added upon creation of the object.
+> omit the dash. The dash will be added upon creation of the object.
 
 ```Python
 # with an omitted dash
 TagFactory("div", role="application", ariadescribedby="info")
 ```
-output:
+
 ```html
 <div role='application' aria-describedby='info'></div>
 ```
