@@ -19,9 +19,9 @@ setup(
     long_description_content_type="text/markdown",
     url = 'https://github.com/jgrugru/htmlfactory',   # Provide either the link to your github or to your website
     keywords = ["html", "template", "templating", "xml", "document", "form", "rendering"],
-    # install_requires=[
-    #     "html5print",
-    # ],
+    install_requires=[
+        "bs4=0.0.1",
+    ],
     include_package_data=True,
     classifiers=[
         "License :: OSI Approved :: MIT License",

@@ -4,6 +4,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__),
                                              os.path.pardir)))
 
 from htmlfactory.TagFactory import TagFactory
+from htmlfactory.TagAndClassStr import TagAndClassStr
 
 
 def example_html_creation():
@@ -67,4 +68,10 @@ def example_html_creation():
 </body>
 """
 
-# example_html_creation()
+example_html_creation()
+
+# my_class = TagAndClassStr("div.class1.class2")
+# print(my_class.get_tag(), my_class.get_classes_str())
+
+# my_tag = TagFactory("div.class1")
+# print(my_tag)

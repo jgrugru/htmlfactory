@@ -8,7 +8,7 @@ class TagAttributeList:
             for attr in kwargs:
                 self.attr_list.append(TagAttribute(attr, kwargs[attr]))
 
-    def __str__(self):
+    def get_tag_attributes_str(self):
         return_str = ""
         for tag_attribute in self.attr_list:
             return_str += str(tag_attribute)
