@@ -6,6 +6,10 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__),
 from htmlfactory.TagFactory import TagFactory
 
 
+def setup_function(function):
+    print("Setting up", function)
+
+
 def test_basic_tag():
     test_tag = TagFactory("div")
     assert(str(test_tag) == '<div></div>')
@@ -64,3 +68,54 @@ def test_omitted_dash():
                           ariadescribedby="info")
     assert(str(test_tag) == '''<div role='application' '''
                             + '''aria-describedby='info'></div>''')
+
+
+def test_add_child_element():
+    test_tag = TagFactory("footer.footer")
+    test_tag.add_child_element((TagFactory("div.container")))
+    assert(str(test_tag) == '''<footer class='footer'>'''
+                            + '''<div class='container'></div></footer>''')
+
+
+def test_add_child_element_list():
+    test_tag = TagFactory("test_tag")
+    child_tag = TagFactory("div")
+    child_list = []
+    for x in range(3):
+        child_list.append(child_tag)
+    test_tag.add_child_element(child_list)
+    assert(str(test_tag) == '<test_tag><div></div><div>'
+                            + '</div><div></div></test_tag>')
+
+
+def test_add_child_element_with_child_element():
+    test_tag = TagFactory("test_tag")
+    test_tag.add_child_element(TagFactory("div.container", TagFactory("div1")))
+    assert(str(test_tag) == '''<test_tag><div class='container'>'''
+                            + '<div1></div1></div></test_tag>')
+
+
+def test_add_child_element_with_multiple_child_tags():
+    test_tag = TagFactory("test_tag")
+    test_tag.add_child_element([
+        TagFactory("div.container",
+          TagFactory("div1",
+            TagFactory("div2",
+              TagFactory("div3",
+                TagFactory("div4")))))
+    ])
+    assert(str(test_tag) == '''<test_tag><div class='container'><div1><div2>'''
+                            + '<div3><div4></div4></div3></div2>'
+                            + '</div1></div></test_tag>')
+
+
+def test_add_child_element_with_existing_child_element():
+    test_tag = TagFactory("test_tag", TagFactory("div"))
+    test_tag.add_child_element(TagFactory("child"))
+    assert(str(test_tag) == '<test_tag><div></div><child></child></test_tag>')
+
+
+def test_set_str_as_child_element_after_setting_child_tag():
+    test_tag = TagFactory("test_tag", TagFactory("div"))
+    test_tag.add_child_element("This is a test string.")
+    assert(str(test_tag) == '<test_tag>This is a test string.</test_tag>')
