@@ -90,14 +90,12 @@ def test_add_child_element_list():
 
 def test_add_child_element_with_child_element():
     test_tag = TagFactory("test_tag")
-    test_tag.add_child_element([
-      TagFactory("div.container", TagFactory("div1"))
-    ])
+    test_tag.add_child_element(TagFactory("div.container", TagFactory("div1")))
     assert(str(test_tag) == '''<test_tag><div class='container'>'''
                             + '<div1></div1></div></test_tag>')
 
 
-def test_add_child_element_recursion():
+def test_add_child_element_with_multiple_child_tags():
     test_tag = TagFactory("test_tag")
     test_tag.add_child_element([
         TagFactory("div.container",
@@ -115,3 +113,9 @@ def test_add_child_element_with_existing_child_element():
     test_tag = TagFactory("test_tag", TagFactory("div"))
     test_tag.add_child_element(TagFactory("child"))
     assert(str(test_tag) == '<test_tag><div></div><child></child></test_tag>')
+
+
+def test_set_str_as_child_element_after_setting_child_tag():
+    test_tag = TagFactory("test_tag", TagFactory("div"))
+    test_tag.add_child_element("This is a test string.")
+    assert(str(test_tag) == '<test_tag>This is a test string.</test_tag>')
