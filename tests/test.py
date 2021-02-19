@@ -4,6 +4,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__),
                                              os.path.pardir)))
 
 from htmlfactory.TagFactory import TagFactory
+from htmlfactory.SingletonTag import SingletonTag
 
 
 def setup_function(function):
@@ -119,3 +120,7 @@ def test_set_str_as_child_element_after_setting_child_tag():
     test_tag = TagFactory("test_tag", TagFactory("div"))
     test_tag.add_child_element("This is a test string.")
     assert(str(test_tag) == '<test_tag>This is a test string.</test_tag>')
+
+
+my_tag = SingletonTag("div.berggge")
+print(my_tag)

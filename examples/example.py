@@ -68,10 +68,12 @@ def example_html_creation():
 </body>
 """
 
-example_html_creation()
+# example_html_creation()
 
-# my_class = TagAndClassStr("div.class1.class2")
-# print(my_class.get_tag(), my_class.get_classes_str())
 
-# my_tag = TagFactory("div.class1")
-# print(my_tag)
+def example_html_creation1():
+    body_tag = TagFactory("body")
+    body_tag.add_child_element(TagFactory("div.container", TagFactory("div.jumbotron")))
+    print(body_tag.pretty_str(add_html_tags=True))
+
+example_html_creation1()

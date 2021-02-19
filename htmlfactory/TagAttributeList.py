@@ -1,5 +1,6 @@
 from TagAttribute import TagAttribute
 
+
 class TagAttributeList:
 
     def __init__(self, **kwargs):
