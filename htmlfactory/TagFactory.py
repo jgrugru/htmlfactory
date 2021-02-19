@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 from InnerHtml import InnerHtml
 from TagAttributeList import TagAttributeList
 from TagAndClassStr import TagAndClassStr
-# from BaseTag import BaseTag
+from .SingletonTag import SingletonTag
 
 
 class TagFactory(TagAndClassStr, TagAttributeList):
@@ -29,7 +29,7 @@ class TagFactory(TagAndClassStr, TagAttributeList):
         for html_element in args:
             if type(html_element) == str:
                 self.inner_html.set_to_str(html_element)
-            elif type(html_element) == TagFactory:
+            elif type(html_element) == TagFactory or type(html_element) == SingletonTag:
                 self.inner_html.add_tag_factory_object(html_element)
             if type(html_element) == list or type(html_element) == tuple:
                 self.add_child_element(*html_element)

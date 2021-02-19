@@ -122,5 +122,48 @@ def test_set_str_as_child_element_after_setting_child_tag():
     assert(str(test_tag) == '<test_tag>This is a test string.</test_tag>')
 
 
-my_tag = SingletonTag("div.berggge")
-print(my_tag)
+def test_basic_singleton_tag():
+    test_tag = SingletonTag("div")
+    assert(str(test_tag) == '<div>')
+
+
+def test_link_tag():
+    test_tag = SingletonTag('link', rel="stylesheet",
+                            href="https://stackpath.bootstrapcdn"
+                            + ".com/bootstrap/4.3.1/css/bootstrap.min.css",
+                            integrity="sha384-ggOyR0iXCbMQv3Xipma"
+                            + "34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T",
+                            crossorigin="anonymous")
+    assert(str(test_tag) == "<link rel='stylesheet\'"
+                            + " href=\'https://stackpath.bootstrapcdn.com"
+                            + "/bootstrap/4.3.1/css/bootstrap.min.css\'"
+                            + " integrity=\'sha384-ggOyR0iXCbMQv3Xipma3"
+                            + "4MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T\'"
+                            + " crossorigin=\'anonymous\'>")
+
+
+def test_img_tag():
+    test_tag = SingletonTag("img", border="0", alt="TestTag",
+                            src="logo_w3s.gif", width="100",
+                            height="100")
+
+    assert(str(test_tag) == """<img border='0' alt='TestTag'"""
+                            + """ src='logo_w3s.gif' width='100'"""
+                            + """ height='100'>""")
+
+
+def test_singleton_tag_as_child_element():
+    a_tag = TagFactory("a", SingletonTag("img", src="logo_w3s.gif"),
+                       href="www.google.com")
+    assert(str(a_tag) == """<a href='www.google.com'>"""
+                         + """<img src='logo_w3s.gif'></a>""")
+
+
+def test_singleton_tag_with_add_child_element_function():
+    img_tag = SingletonTag("img", src="logo_w3s.gif")
+    a_tag = TagFactory("a", href="www.google.com")
+    a_tag.add_child_element(img_tag)
+    assert(str(a_tag) == """<a href='www.google.com'>"""
+                          + """<img src='logo_w3s.gif'></a>""")
+
+test_singleton_tag_with_add_child_element_function()

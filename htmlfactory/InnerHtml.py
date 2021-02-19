@@ -20,7 +20,10 @@ class InnerHtml():
 
     def add_tag_factory_object(self, tag_factory_object):
         if not self.is_list_or_tuple(self.inner_html):
-            self.inner_html = [self.inner_html]
+            if not self.inner_html:
+                self.inner_html = []
+            else:
+                self.inner_html = [self.inner_html]
         self.inner_html.append(tag_factory_object)
 
     def set_to_str(self, html_str):
