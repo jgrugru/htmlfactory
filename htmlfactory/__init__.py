@@ -1,1 +1,1 @@
-from .TagFactory import TagFactory
+from .TagFactory import TagFactory, SingletonTag
