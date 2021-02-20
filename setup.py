@@ -10,7 +10,7 @@ README = (HERE / "README.md").read_text()
 setup(
     name = 'htmlfactory',         # How you named your package folder (MyLib)
     packages = find_packages(exclude=("tests",)),
-    version = '0.0.11',      # Start with a small number and increase it with every change you make
+    version = '0.0.12',      # Start with a small number and increase it with every change you make
     license='MIT',        # Chose a license from here: https://help.github.com/articles/licensing-a-repository
     description = 'A simple way to produce HTML with Python.',   # Give a short description about your library
     author = 'Jeff Gruenbaum',                   # Type in your name
@@ -20,7 +20,7 @@ setup(
     url = 'https://github.com/jgrugru/htmlfactory',   # Provide either the link to your github or to your website
     keywords = ["html", "template", "templating", "xml", "document", "form", "rendering"],
     install_requires=[
-        "bs4>=0.0.1",
+        "beautifulsoup4>=2.2",
     ],
     include_package_data=True,
     classifiers=[
