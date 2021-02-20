@@ -10,7 +10,7 @@ from TagAndClassStr import TagAndClassStr
 from .SingletonTag import SingletonTag
 
 
-class TagFactory(TagAndClassStr, TagAttributeList):
+class TagFactory(SingletonTag):
     """A tag object that inherits from TagAndClassStr and TagAttributeList.
     InnerHtml holds the child html elements or string between the opening and
     closing tags. TagAndClassStr extracts the tag and classes from
@@ -22,8 +22,7 @@ class TagFactory(TagAndClassStr, TagAttributeList):
     def __init__(self, tag_and_class_str: str, inner_html='',
                  **kwargs):
         self.inner_html = InnerHtml(inner_html)
-        TagAttributeList.__init__(self, **kwargs)
-        TagAndClassStr.__init__(self, tag_and_class_str)
+        SingletonTag.__init__(self, tag_and_class_str, **kwargs)
 
     def add_child_element(self, *args):
         for html_element in args:
