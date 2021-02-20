@@ -142,3 +142,26 @@ TagFactory("div", role="application", ariadescribedby="info")
 ```html
 <div role='application' aria-describedby='info'></div>
 ```
+
+###### adding tags without closing brackets example
+
+You can create tags without closing brackets, which may be useful if wanting to add an img or link:
+```Python
+test_tag = SingletonTag("img", border="0", alt="TestTag",
+                        src="logo_w3s.gif", width="100",
+                        height="100")
+```
+
+```html
+<img border='0' alt='TestTag' src='logo_w3s.gif' width='100' height='100'>
+```
+
+The SingletonTag class is inherited to the TagFactory class, so SingletonTags can be treated like TagFactory objects and added as children html elements to other TagFactory objects.
+```Python
+a_tag = TagFactory("a", SingletonTag("img", src="logo_w3s.gif"),
+                   href="www.google.com")
+```
+
+```html
+<a href='www.google.com'><img src='logo_w3s.gif'></a>
+```
