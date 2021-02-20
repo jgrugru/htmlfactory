@@ -100,10 +100,10 @@ def test_add_child_element_with_multiple_child_tags():
     test_tag = TagFactory("test_tag")
     test_tag.add_child_element([
         TagFactory("div.container",
-          TagFactory("div1",
-            TagFactory("div2",
-              TagFactory("div3",
-                TagFactory("div4")))))
+                   TagFactory("div1",
+                              TagFactory("div2",
+                                         TagFactory("div3",
+                                                    TagFactory("div4")))))
     ])
     assert(str(test_tag) == '''<test_tag><div class='container'><div1><div2>'''
                             + '<div3><div4></div4></div3></div2>'
@@ -164,6 +164,4 @@ def test_singleton_tag_with_add_child_element_function():
     a_tag = TagFactory("a", href="www.google.com")
     a_tag.add_child_element(img_tag)
     assert(str(a_tag) == """<a href='www.google.com'>"""
-                          + """<img src='logo_w3s.gif'></a>""")
-
-test_singleton_tag_with_add_child_element_function()
+                         + """<img src='logo_w3s.gif'></a>""")
