@@ -10,7 +10,7 @@ README = (HERE / "README.md").read_text()
 setup(
     name = 'htmlfactory',         # How you named your package folder (MyLib)
     packages = find_packages(exclude=("tests",)),
-    version = '0.0.12',      # Start with a small number and increase it with every change you make
+    version = '0.0.1',      # Start with a small number and increase it with every change you make
     license='MIT',        # Chose a license from here: https://help.github.com/articles/licensing-a-repository
     description = 'A simple way to produce HTML with Python.',   # Give a short description about your library
     author = 'Jeff Gruenbaum',                   # Type in your name
