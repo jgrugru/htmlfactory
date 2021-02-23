@@ -165,3 +165,12 @@ def test_singleton_tag_with_add_child_element_function():
     a_tag.add_child_element(img_tag)
     assert(str(a_tag) == """<a href='www.google.com'>"""
                          + """<img src='logo_w3s.gif'></a>""")
+
+
+def test_singleton_tag_add_with_child_element_list():
+    body = TagFactory("body")
+    body.add_child_element(
+        SingletonTag("img"),
+        SingletonTag("img1")
+    )
+    assert(str(body) == "<body><img><img1></body>")

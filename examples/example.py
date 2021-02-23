@@ -1,79 +1,150 @@
 import sys
 import os.path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__),
-                                             os.path.pardir)))
+sys.path.append(
+    os.path.abspath(
+        os.path.join(
+            os.path.dirname(__file__),
+            os.path.pardir
+        )
+    )
+)
 
 from htmlfactory.TagFactory import TagFactory
-from htmlfactory.TagAndClassStr import TagAndClassStr
+from htmlfactory.SingletonTag import SingletonTag
 
 
-def example_html_creation():
-    body_tag_object = TagFactory("body", (
-        TagFactory("div.col-10.col-lg-9.d-inline-block",
-                   'inside the tags', id="target-div"),
-        TagFactory("div.col-10.col-lg-3.d-inline-block",
-                   'well how about that'),
-        TagFactory("form.input-handler", (
-            TagFactory("div.form-group", (
-                TagFactory("label", 'Email Address', four="exampleInputEmail1"),
-                TagFactory("input.form-control", '', id="exampleInputEmail1", ariadescribedby="emailHelp", placeholder="Enter email"),
-                TagFactory("small.form-text.text-muted", "We'll never share your email with anyone else.", id="emailHelp"),
-            )),
-            TagFactory("div.form-group", (
-                TagFactory("label", 'Password', four="exampleInputPassword1"),
-                TagFactory("input.form-control", '', id="exampleInputPassword1", placeholder="Password"),
-            )),
-            TagFactory("div.form-check", (
-                TagFactory("input.form-check-input", '', id="exampleCheck1"),
-                TagFactory("label.form-check-label", 'Check me out', four="exampleCheck1"),
-            )),
-            TagFactory("button.btn.btn-primary", 'Submit', type="submit")
-        ))
-    ))
-    print(body_tag_object.pretty_str())
-"""
-<body>
- <div class="col-10 col-lg-9 d-inline-block" id="target-div">
-  inside the tags
- </div>
- <div class="col-10 col-lg-3 d-inline-block">
-  well how about that
- </div>
- <form class="input-handler">
-  <div class="form-group">
-   <label for="exampleInputEmail1">
-    Email Address
-   </label>
-   <input aria-describedby="emailHelp" class="form-control" id="exampleInputEmail1" placeholder="Enter email"/>
-   <small class="form-text text-muted" id="emailHelp">
-    We'll never share your email with anyone else.
-   </small>
-  </div>
-  <div class="form-group">
-   <label for="exampleInputPassword1">
-    Password
-   </label>
-   <input class="form-control" id="exampleInputPassword1" placeholder="Password"/>
-  </div>
-  <div class="form-check">
-   <input class="form-check-input" id="exampleCheck1"/>
-   <label class="form-check-label" for="exampleCheck1">
-    Check me out
-   </label>
-  </div>
-  <button class="btn btn-primary" type="submit">
-   Submit
-  </button>
- </form>
-</body>
-"""
+def get_email_component():
+    email_component = TagFactory(
+        "div.form-group",
+        (
+            TagFactory(
+                "label",
+                'Email Address',
+                four="exampleInputEmail1"
+            ),
+            TagFactory(
+                "input.form-control",
+                id="exampleInputEmail1",
+                ariadescribedby="emailHelp",
+                placeholder="Enter email"
+            ),
+            TagFactory(
+                "small.form-text.text-muted",
+                "We'll never share your email with anyone else.",
+                id="emailHelp"
+            ),
+        )
+    )
 
-# example_html_creation()
+    return email_component
 
 
-def example_html_creation1():
-    body_tag = TagFactory("body")
-    body_tag.add_child_element(TagFactory("div.container", TagFactory("div.jumbotron")))
-    print(body_tag.pretty_str(add_html_tags=True))
+def get_password_component():
+    password_component = TagFactory(
+        "div.form-group",
+        (
+            TagFactory(
+                "label",
+                'Password',
+                four="exampleInputPassword1"
+            ),
+            TagFactory(
+                "input.form-control",
+                id="exampleInputPassword1",
+                placeholder="Password"
+            ),
+        )
+    )
 
-example_html_creation1()
+    return password_component
+
+
+def get_checkbox_component():
+    checkbox_component = TagFactory(
+        "div.form-check",
+        (
+            TagFactory(
+                "input.form-check-input",
+                id="exampleCheck1"
+            ),
+            TagFactory(
+                "label.form-check-label",
+                'Check me out',
+                four="exampleCheck1"
+            ),
+        )
+    )
+
+    return checkbox_component
+
+
+def get_submit_button():
+    button_component = TagFactory(
+        "button.btn.btn-primary",
+        'Submit',
+        type="submit"
+    )
+
+    return button_component
+
+
+def example_form():
+    form_component = TagFactory("form")
+    form_component.add_child_element(get_email_component())
+    form_component.add_child_element(get_password_component())
+    form_component.add_child_element(get_checkbox_component())
+    form_component.add_child_element(get_submit_button())
+    return form_component
+
+
+def get_head_component():
+    head = TagFactory("head")
+    head.add_child_element(
+        SingletonTag("meta", charset="utf-8"),
+        SingletonTag(
+            "meta",
+            content="width=device-width, initial-scale=1, shrink-to-fit=no",
+        ),
+        SingletonTag(
+            "link",
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css",
+            integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm",
+            crossorigin="anonymous"
+        ),
+        TagFactory("title", "Hello, world!")
+    )
+
+    return head
+
+
+def get_body_component():
+    body = TagFactory("body")
+    body.add_child_element(
+        TagFactory(
+            "script",
+            src="https://code.jquery.com/jquery-3.2.1.slim.min.js",
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN",
+            crossorigin="anonymous"
+        ),
+        TagFactory(
+            "script",
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js",
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q",
+            crossorigin="anonymous"
+        ),
+        TagFactory(
+            "script",
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js",
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl",
+            crossorigin="anonymous"
+        )
+    )
+
+    return body
+
+def example_base_html_page():
+    html_page = TagFactory("html", lang="en")
+    html_page.add_child_element(get_head_component())
+    html_page.add_child_element(get_body_component())
+
+    return html_page
