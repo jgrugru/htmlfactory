@@ -48,9 +48,15 @@ TagFactory("div.my-class",  TagFactory("div", "child tag"))
 
 pass a list of *TagFactory* objects
 ```Python
-TagFactory("div.parent-div", [
-      TagFactory("div.first-child-div", (
-        TagFactory("div.second-child-div", "It's party time.")))])
+TagFactory(
+  "div.parent-div", [
+  TagFactory(
+    "div.first-child-div",
+     TagFactory(
+       "div.second-child-div",
+       "It's party time."
+      )
+  )])
 
 ```
 

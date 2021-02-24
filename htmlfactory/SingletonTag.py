@@ -1,11 +1,6 @@
-import sys
-import os.path
-sys.path.append(
-    os.path.abspath(os.path.dirname(__file__)))
-
 from bs4 import BeautifulSoup
-from TagAttributeList import TagAttributeList
-from TagAndClassStr import TagAndClassStr
+from .TagAttributeList import TagAttributeList
+from .TagAndClassStr import TagAndClassStr
 
 class SingletonTag(TagAndClassStr, TagAttributeList):
     """Class used for tags without a closing bracket.

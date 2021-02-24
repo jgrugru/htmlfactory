@@ -1,12 +1,8 @@
-import sys
-import os.path
-sys.path.append(
-    os.path.abspath(os.path.dirname(__file__)))
-
 from bs4 import BeautifulSoup
-from InnerHtml import InnerHtml
-from TagAttributeList import TagAttributeList
-from TagAndClassStr import TagAndClassStr
+
+from .InnerHtml import InnerHtml
+from .TagAttributeList import TagAttributeList
+from .TagAndClassStr import TagAndClassStr
 from .SingletonTag import SingletonTag
 
 

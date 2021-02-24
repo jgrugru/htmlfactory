@@ -1,4 +1,4 @@
-from TagAttribute import TagAttribute
+from .TagAttribute import TagAttribute
 
 
 class TagAttributeList:
