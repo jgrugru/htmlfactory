@@ -9,6 +9,7 @@ from htmlfactory.SingletonTag import SingletonTag
 
 app = typer.Typer()
 
+
 @app.command()
 def tag(tag_and_class_str: str, inner_html: str = '', pretty_str: bool = False):
     """
@@ -19,14 +20,10 @@ def tag(tag_and_class_str: str, inner_html: str = '', pretty_str: bool = False):
     
     --pretty-str outputs the tags with an indent.
     """
-    my_tag = ''
     if pretty_str:
-        my_tag = TagFactory(tag_and_class_str, inner_html).pretty_str()
+        typer.secho(TagFactory(tag_and_class_str, inner_html).pretty_str(), fg=typer.colors.GREEN)
     else:
-        my_tag = TagFactory(tag_and_class_str, inner_html)
-
-    output = typer.style(str(my_tag), fg=typer.colors.GREEN)
-    typer.echo(output)
+        typer.secho(str(TagFactory(tag_and_class_str, inner_html)), fg=typer.colors.GREEN)
 
 
 @app.command()
@@ -36,6 +33,7 @@ def singleton(tag_and_class_str: str):
     such as "img.image".
     """
     typer.echo(SingletonTag(tag_and_class_str))
+
 
 if __name__ == "__main__":
     app()
