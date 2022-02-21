@@ -117,3 +117,6 @@ def example_base_html_page():
     html_page.add_child_element(get_body_component())
 
     return html_page
+
+
+print(example_base_html_page().pretty_str())
