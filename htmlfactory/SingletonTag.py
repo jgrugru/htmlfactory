@@ -1,11 +1,6 @@
-import sys
-import os.path
-sys.path.append(
-    os.path.abspath(os.path.dirname(__file__)))
+from htmlfactory.TagAttributeList import TagAttributeList
+from htmlfactory.TagAndClassStr import TagAndClassStr
 
-from bs4 import BeautifulSoup
-from TagAttributeList import TagAttributeList
-from TagAndClassStr import TagAndClassStr
 
 class SingletonTag(TagAndClassStr, TagAttributeList):
     """Class used for tags without a closing bracket.
@@ -16,8 +11,11 @@ class SingletonTag(TagAndClassStr, TagAttributeList):
         TagAttributeList.__init__(self, **kwargs)
 
     def __str__(self):
-        html = "<" + self.tag \
-               + self.get_classes_str() \
-               + self.get_tag_attributes_str() \
-               + ">"
+        html = (
+            "<"
+            + self.tag
+            + self.get_classes_str()
+            + self.get_tag_attributes_str()
+            + ">"
+        )
         return html

@@ -1,7 +1,7 @@
-class InnerHtml():
+class InnerHtml:
     """This class allows the innerHTML attribute of a TagFactory object
-       to either be a str, single TagFactory object, or a list/tuple of
-       TagFactory objects"""
+    to either be a str, single TagFactory object, or a list/tuple of
+    TagFactory objects"""
 
     def __init__(self, inner_html):
         self.inner_html = inner_html

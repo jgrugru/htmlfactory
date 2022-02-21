@@ -1,13 +1,6 @@
-import sys
-import os.path
-sys.path.append(
-    os.path.abspath(os.path.dirname(__file__)))
-
 from bs4 import BeautifulSoup
-from InnerHtml import InnerHtml
-from TagAttributeList import TagAttributeList
-from TagAndClassStr import TagAndClassStr
-from .SingletonTag import SingletonTag
+from htmlfactory.InnerHtml import InnerHtml
+from htmlfactory.SingletonTag import SingletonTag
 
 
 class TagFactory(SingletonTag):
@@ -19,8 +12,7 @@ class TagFactory(SingletonTag):
     TagAttributeList abstracts all the tags that are inputted as keyword
     arguments. The tags can be grabbed with self.get_tag_attributes_str()."""
 
-    def __init__(self, tag_and_class_str: str, inner_html='',
-                 **kwargs):
+    def __init__(self, tag_and_class_str: str, inner_html="", **kwargs):
         self.inner_html = InnerHtml(inner_html)
         SingletonTag.__init__(self, tag_and_class_str, **kwargs)
 
@@ -42,8 +34,15 @@ class TagFactory(SingletonTag):
 
     def __str__(self):
         """This function produces the usable html."""
-        html = "<" + self.tag \
-               + self.get_classes_str() \
-               + self.get_tag_attributes_str() \
-               + ">" + str(self.inner_html) + "</" + self.tag + ">"
+        html = (
+            "<"
+            + self.tag
+            + self.get_classes_str()
+            + self.get_tag_attributes_str()
+            + ">"
+            + str(self.inner_html)
+            + "</"
+            + self.tag
+            + ">"
+        )
         return html

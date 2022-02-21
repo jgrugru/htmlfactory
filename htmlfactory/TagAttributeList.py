@@ -1,8 +1,7 @@
-from TagAttribute import TagAttribute
+from htmlfactory.TagAttribute import TagAttribute
 
 
 class TagAttributeList:
-
     def __init__(self, **kwargs):
         self.attr_list = []
         if kwargs:
