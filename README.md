@@ -1,3 +1,5 @@
+![Untitled-Artwork](https://user-images.githubusercontent.com/24437648/155743874-4187e556-7ac7-44eb-8d73-3420e9c58af6.png)
+
 # htmlfactory     [![Build Status](https://travis-ci.com/jgrugru/htmlfactory.svg?branch=main)](https://travis-ci.com/jgrugru/htmlfactory)
 A simple way to produce HTML with Python.
 Source code can be found on [github](https://github.com/jgrugru/htmlfactory).
