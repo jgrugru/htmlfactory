@@ -1,72 +1,64 @@
-from typing import List, Protocol, Generator, Callable, Dict, Any
-from pydantic import BaseModel
+from dataclasses import dataclass
+from typing import List
 
 
-class Tag(str):
-    """
-    A str that is surrounded by < and >. Example) <img> is a tag.
-    Creating a class so this can easily be incorporated with Pydantic.
-    """
+def attr_concatenater(attr: str, *args):
+    """This function returns a string with all of the html
+    attributes concatenated together.
+    self.classes = ['col-md-10', 'col-10']
+    becomes ' class='col-md-10 col-10'."""
 
-    @classmethod
-    def __get_validators__(cls) -> Generator[Callable[[str], str], None, None]:
-        # one or more validators may be yielded which will be called in the
-        # order to validate the input, each validator will receive as an input
-        # the value returned from the previous validator
-        yield cls.validate
+    attr = f" {attr}="
+    return_str = attr
+    for counter, klass in enumerate(args):
+        if counter == 0:
+            return_str += "'" + klass
+        else:
+            return_str += " " + klass
+    return_str += "'"
 
-    @classmethod
-    def __modify_schema__(cls, field_schema: Dict[str, Any]) -> None:
-        # __modify_schema__ should mutate the dict it receives in place,
-        # the returned value will be ignored
-        field_schema.update(pattern="< ..str.. >", type="float")
-
-    @classmethod
-    def validate(cls, v: str) -> str:
-        if not isinstance(v, str):
-            raise TypeError("str required")
-        if v[0] != "<" and v[-1] != ">":
-            raise TypeError(
-                "Not a valid tag. The first element needs to be '<' and the last element needs to be '>'."
-            )
-        return v
-
-    def __repr__(self) -> str:
-        return f"Tag({super().__repr__()})"
+    return return_str
 
 
-class Div(BaseModel):
-    prefix: Tag
-    suffix: Tag
-    contents: str
+@dataclass
+class Tag:
+    """This function takes the tag_and_class_str
+    (Ex: 'div.class1.class2') and turns it into printable tag."""
 
-    def get_html(self) -> str:
-        return self.prefix + self.contents + self.suffix
+    raw_str: str
 
-    def print_html(self) -> None:
-        print(self.get_html())
+    def __post_init__(self):
+        """Populates the attributes self.tag and self.classes"""
+        self.parse_raw_str(self.raw_str)
 
+    def get_prefix(self) -> str:
+        return "<" + self.tag + self.get_classes_str() + ">"
 
-my_div = Div(prefix=Tag("<div>"), suffix=Tag("</div>"), contents="Testing this out.")
-my_div.print_html()
+    def get_suffix(self) -> str:
+        return "</" + self.tag + ">"
 
+    def parse_raw_str(self, raw_str) -> None:
+        """This function parses the tag and class string
+        (example input: 'div.col-md-10.col-10').
+        Self.tag = 'div' and
+        self.class_list = ['col-md-10', 'col-10']."""
 
-class HTML_Element(Protocol):
-    def get_html(self) -> str:
-        ...
+        split_str: List[str] = self.split_str_by_period(raw_str)
 
-    def print_html(self) -> None:
-        ...
+        self.tag = split_str[0]
+        if len(split_str) > 0:
+            self.classes = split_str[1:]
+        else:
+            self.classes = ""
 
+    def split_str_by_period(self, str) -> List[str]:
+        """Return the string split by periods.
+        "div.col-md-10" becomes ["div", "col-md-10"]."""
 
-class TagFactory(BaseModel):
-    inner_html: List[HTML_Element]
+        return str.split(".")
 
-    def get_html(self) -> str:
-        str = ""
-        for element in self.inner_html:
-            str += element.get_html()
-        return str
+    def get_classes_str(self) -> str:
+        return attr_concatenater(*self.classes)
 
-    def print_html(self) -> None:
-        print(self.get_html())
+    def __str__(self) -> str:
+        return self.get_prefix() + self.get_suffix()
