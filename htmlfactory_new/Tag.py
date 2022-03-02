@@ -78,4 +78,4 @@ class Tag:
         return return_str
 
     def __str__(self) -> str:
-        return self.prefix + self.suffix
+        return f"Tag({self.prefix})"
