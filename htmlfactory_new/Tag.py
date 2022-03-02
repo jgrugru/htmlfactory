@@ -1,8 +1,8 @@
-from dataclasses import dataclass
-from typing import List
+from dataclasses import dataclass, field
+from typing import List, Iterable
 
 
-def attr_concatenater(attr: str, *args):
+def attr_concatenater(attr: str, *args) -> str:
     """This function returns a string with all of the html
     attributes concatenated together.
     self.classes = ['col-md-10', 'col-10']
@@ -26,18 +26,25 @@ class Tag:
     (Ex: 'div.class1.class2') and turns it into printable tag."""
 
     raw_str: str
+    classes: Iterable[str] = field(default_factory=list)
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         """Populates the attributes self.tag and self.classes"""
         self.parse_raw_str(self.raw_str)
 
-    def get_prefix(self) -> str:
+    @property
+    def prefix(self) -> str:
         return "<" + self.tag + self.get_classes_str() + ">"
 
-    def get_suffix(self) -> str:
+    @property
+    def open_prefix(self) -> str:
+        return "<" + self.tag + self.get_classes_str()
+
+    @property
+    def suffix(self) -> str:
         return "</" + self.tag + ">"
 
-    def parse_raw_str(self, raw_str) -> None:
+    def parse_raw_str(self, raw_str: str) -> None:
         """This function parses the tag and class string
         (example input: 'div.col-md-10.col-10').
         Self.tag = 'div' and
@@ -49,7 +56,7 @@ class Tag:
         if len(split_str) > 0:
             self.classes = split_str[1:]
         else:
-            self.classes = ""
+            self.classes = [""]
 
     def split_str_by_period(self, str) -> List[str]:
         """Return the string split by periods.
@@ -58,7 +65,10 @@ class Tag:
         return str.split(".")
 
     def get_classes_str(self) -> str:
-        return attr_concatenater(*self.classes)
+        if len(self.classes) > 0:
+            return attr_concatenater("class", *self.classes)
+        else:
+            return ""
 
     def __str__(self) -> str:
-        return self.get_prefix() + self.get_suffix()
+        return self.prefix + self.suffix
