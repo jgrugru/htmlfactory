@@ -1,22 +1,27 @@
-from typing import Iterable
+from typing import Iterable, Dict, Union
 from dataclasses import dataclass, field
 from htmlfactory_new.Tag import Tag
-from htmlfactory_new.InnerHtml import HTMLElement
+from htmlfactory_new.protocols import HTMLElement
+from itertools import chain
 
 
 @dataclass
 class TagFactory:
     """
-    Creates printable html.
-    Ex) TagFactory("div.class1", innerHTML=[TagFactory_obj1, "I'm inside the div", TagFactory_obj2])
+    Python class that assists in creating printable html.
+    Ex) TagFactory("div.container-fluid", innerHTML=[TagFactory("div.my-class", innerHTML=["I'm inside the div"])])
+    -->
+    <div class='container-fluid'><div class='my-class'>I'm inside the div</div></div>
     """
 
     raw_tag: str
     innerHTML: Iterable[HTMLElement] = field(default_factory=list)
     singleton: bool = False
+    attributes: Dict[str, HTMLElement] = field(default_factory=dict)
 
-    def get_tag(self) -> Tag:
-        return Tag(self.raw_tag)
+    @property
+    def tag(self) -> Tag:
+        return Tag(self.raw_tag, attributes=self.attributes)
 
     def get_html(self, bootstrap: bool = False, jquery: bool = False) -> str:
         if not self.singleton:
@@ -25,7 +30,7 @@ class TagFactory:
             return self.singleton_tag()
 
     def full_tag(self) -> str:
-        tag = self.get_tag()
+        tag = self.tag
         html_str = tag.prefix
         html_str += self.concatenate_innerHTML()
         html_str += tag.suffix
@@ -33,7 +38,7 @@ class TagFactory:
         return html_str
 
     def singleton_tag(self) -> str:
-        tag = self.get_tag()
+        tag = self.tag
         html_str = tag.open_prefix
         html_str += ">"
         html_str += self.concatenate_innerHTML()
@@ -50,8 +55,17 @@ class TagFactory:
         print(self.get_html())
 
     # TODO: How to add child when innerHTML is generic Iterable?
-    # def add_child(self, child: HTMLElement) -> None:
-    #     self.innerHTML.extend(child)
+    def add_child(self, child: Union[Iterable[HTMLElement], HTMLElement]) -> None:
+        if isinstance(child, Iterable):
+            self.innerHTML = chain(self.innerHTML, child)
+        else:
+            self.innerHTML = chain(self.innerHTML, [child])
 
     def __str__(self) -> str:
         return self.get_html()
+
+
+# x = TagFactory("div.container-fluid", innerHTML=[TagFactory("div.my-class", innerHTML=["I'm inside the div"])])
+# print(x)
+# x.add_child("DERKADFKADSFK AFDKDA F")
+# print(x)

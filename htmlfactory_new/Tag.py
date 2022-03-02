@@ -1,5 +1,7 @@
 from dataclasses import dataclass, field
-from typing import List, Iterable
+from typing import List, Dict
+
+from htmlfactory_new.protocols import HTMLElement
 
 
 def attr_concatenater(attr: str, *args) -> str:
@@ -26,7 +28,8 @@ class Tag:
     (Ex: 'div.class1.class2') and turns it into printable tag."""
 
     raw_str: str
-    classes: Iterable[str] = field(default_factory=list)
+    attributes: Dict[str, HTMLElement]
+    classes: List[str] = field(default_factory=list)
 
     def __post_init__(self) -> None:
         """Populates the attributes self.tag and self.classes"""
@@ -34,11 +37,11 @@ class Tag:
 
     @property
     def prefix(self) -> str:
-        return "<" + self.tag + self.get_classes_str() + ">"
+        return "<" + self.tag + self.get_classes_str() + self.get_attributes_str() + ">"
 
     @property
     def open_prefix(self) -> str:
-        return "<" + self.tag + self.get_classes_str()
+        return "<" + self.tag + self.get_classes_str() + self.get_attributes_str()
 
     @property
     def suffix(self) -> str:
@@ -55,8 +58,6 @@ class Tag:
         self.tag = split_str[0]
         if len(split_str) > 0:
             self.classes = split_str[1:]
-        else:
-            self.classes = [""]
 
     def split_str_by_period(self, str) -> List[str]:
         """Return the string split by periods.
@@ -69,6 +70,12 @@ class Tag:
             return attr_concatenater("class", *self.classes)
         else:
             return ""
+
+    def get_attributes_str(self) -> str:
+        return_str = ""
+        for k, v in self.attributes.items():
+            return_str += " " + str(k) + "='" + str(v) + "'"
+        return return_str
 
     def __str__(self) -> str:
         return self.prefix + self.suffix
