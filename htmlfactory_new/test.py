@@ -1,29 +1,40 @@
-from htmlfactory_new.TagFactory import TagFactory
+from htmlfactory_new.TagFactory import Tagged
+
+
+def test_tagged():
+    test_tag = Tagged(
+        "div.my-class", innerHTML=Tagged("form.bootstrap", target="/action.php")
+    )
+    assert (
+        str(test_tag)
+        == """<div class='my-class'><form class='bootstrap' target='/action.php'></form></div>"""
+    )
 
 
 def test_basic_tag():
-    test_tag = TagFactory("div")
+    test_tag = Tagged(raw_tag="div")
     assert str(test_tag) == "<div></div>"
 
 
 def test_multiple_classes():
-    test_tag = TagFactory("div.col-10.col-lg-9.d-inline-block")
+    test_tag = Tagged(raw_tag="div.col-10.col-lg-9.d-inline-block")
     assert (
         str(test_tag)
         == """<div class='col-10 col-lg-9 """ + """d-inline-block'></div>"""
     )
 
 
-def test_single_tagfactory_child():
-    test_tag = TagFactory(raw_tag="div", innerHTML=[TagFactory("div-2")])
+def test_single_child():
+    test_tag = Tagged(raw_tag="div", innerHTML=[Tagged(raw_tag="div-2")])
     assert str(test_tag) == """<div><div-2></div-2></div>"""
 
 
 def test_inner_html_list():
     assert (
         str(
-            TagFactory(
-                "div.my-class", innerHTML=[TagFactory("div", innerHTML=["child tag"])]
+            Tagged(
+                raw_tag="div.my-class",
+                innerHTML=[Tagged(raw_tag="div", innerHTML=["child tag"])],
             )
         )
         == """<div class='my-class'><div>child tag</div></div>"""
@@ -33,8 +44,9 @@ def test_inner_html_list():
 def test_inner_html_tuple():
     assert (
         str(
-            TagFactory(
-                "div.my-class", innerHTML=[TagFactory("div", innerHTML="child tag")]
+            Tagged(
+                raw_tag="div.my-class",
+                innerHTML=[Tagged(raw_tag="div", innerHTML="child tag")],
             )
         )
         == """<div class='my-class'><div>child tag</div></div>"""
@@ -42,19 +54,19 @@ def test_inner_html_tuple():
 
 
 def test_basic_singleton_tag():
-    test_tag = TagFactory("div", singleton=True)
+    test_tag = Tagged(raw_tag="div", singleton=True)
     assert str(test_tag) == "<div>"
 
 
 def test_basic_singleton_tag_with_classes():
-    test_tag = TagFactory("div.test1.test2.test3.test4", singleton=True)
+    test_tag = Tagged(raw_tag="div.test1.test2.test3.test4", singleton=True)
     assert str(test_tag) == "<div class='test1 test2 test3 test4'>"
 
 
 def test_basic_singleton_tag_with_innerHTML():
-    test_tag = TagFactory(
-        "img.1.2.3.4",
-        innerHTML=[TagFactory("div.1", innerHTML=[TagFactory("div.2")])],
+    test_tag = Tagged(
+        raw_tag="img.1.2.3.4",
+        innerHTML=[Tagged(raw_tag="div.1", innerHTML=[Tagged(raw_tag="div.2")])],
         singleton=True,
     )
     print(test_tag)
@@ -65,10 +77,11 @@ def test_basic_singleton_tag_with_innerHTML():
 
 
 def test_attributes():
-    test_tag = TagFactory(
-        "div",
+    test_tag = Tagged(
+        raw_tag="div",
         innerHTML="I have an action and method attribute.",
-        attributes={"action": "/action_page.php", "method": "get"},
+        action="/action_page.php",
+        method="get",
     )
     assert (
         str(test_tag)
@@ -78,17 +91,15 @@ def test_attributes():
 
 
 def test_link_tag():
-    test_tag = TagFactory(
-        "link",
-        attributes={
-            "rel": "stylesheet",
-            "href": "https://stackpath.bootstrapcdn"
-            + ".com/bootstrap/4.3.1/css/bootstrap.min.css",
-            "integrity": "sha384-ggOyR0iXCbMQv3Xipma"
-            + "34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T",
-            "crossorigin": "anonymous",
-        },
+    test_tag = Tagged(
+        raw_tag="link",
         singleton=True,
+        rel="stylesheet",
+        href="https://stackpath.bootstrapcdn"
+        + ".com/bootstrap/4.3.1/css/bootstrap.min.css",
+        integrity="sha384-ggOyR0iXCbMQv3Xipma"
+        + "34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T",
+        crossorigin="anonymous",
     )
     assert (
         str(test_tag)
@@ -102,16 +113,14 @@ def test_link_tag():
 
 
 def test_img_tag():
-    test_tag = TagFactory(
-        "img",
+    test_tag = Tagged(
+        raw_tag="img",
         singleton=True,
-        attributes={
-            "border": "0",
-            "alt": "TestTag",
-            "src": "logo_w3s.gif",
-            "width": "100",
-            "height": "100",
-        },
+        border="0",
+        alt="TestTag",
+        src="logo_w3s.gif",
+        width="100",
+        height="100",
     )
 
     assert (
@@ -123,8 +132,8 @@ def test_img_tag():
 
 
 def test_add_child_element():
-    test_tag = TagFactory("footer.footer")
-    test_tag.add_child((TagFactory("div.container")))
+    test_tag = Tagged(raw_tag="footer.footer")
+    test_tag.add_child((Tagged(raw_tag="div.container")))
     assert (
         str(test_tag)
         == """<footer class='footer'>""" + """<div class='container'></div></footer>"""
@@ -133,8 +142,8 @@ def test_add_child_element():
 
 """
 def test_add_child_element_list():
-    test_tag = TagFactory("test_tag")
-    child_tag = TagFactory("div")
+    test_tag = Tagged(raw_tag="test_tag")
+    child_tag = Tagged(raw_tag="div")
     child_list = []
     for x in range(3):
         child_list.append(child_tag)
@@ -145,8 +154,10 @@ def test_add_child_element_list():
 
 
 def test_add_child_element_with_child_element():
-    test_tag = TagFactory("test_tag")
-    test_tag.add_child(TagFactory("div.container", innerHTML=[TagFactory("div1")]))
+    test_tag = Tagged(raw_tag="test_tag")
+    test_tag.add_child(
+        Tagged(raw_tag="div.container", innerHTML=[Tagged(raw_tag="div1")])
+    )
     assert (
         str(test_tag)
         == """<test_tag><div class='container'>""" + "<div1></div1></div></test_tag>"
@@ -154,18 +165,18 @@ def test_add_child_element_with_child_element():
 
 
 def test_singleton_tag_add_with_child_element_list():
-    body = TagFactory("body")
+    body = Tagged(raw_tag="body")
     body.add_child(
-        [TagFactory("img", singleton=True), TagFactory("img1", singleton=True)]
+        [Tagged(raw_tag="img", singleton=True), Tagged(raw_tag="img1", singleton=True)]
     )
     assert str(body) == "<body><img><img1></body>"
 
 
 def test_singleton_tag_as_child_element():
-    a_tag = TagFactory(
-        "a",
+    a_tag = Tagged(
+        raw_tag="a",
         innerHTML=[
-            TagFactory("img", singleton=True, attributes={"src": "logo_w3s.gif"})
+            Tagged(raw_tag="img", singleton=True, attributes={"src": "logo_w3s.gif"})
         ],
         attributes={"href": "www.google.com"},
     )
@@ -176,8 +187,8 @@ def test_singleton_tag_as_child_element():
 
 
 def test_singleton_tag_with_add_child_element_function():
-    img_tag = TagFactory("img", singleton=True, attributes={"src": "logo_w3s.gif"})
-    a_tag = TagFactory("a", attributes={"href": "www.google.com"})
+    img_tag = Tagged(raw_tag="img", singleton=True, attributes={"src": "logo_w3s.gif"})
+    a_tag = Tagged(raw_tag="a", attributes={"href": "www.google.com"})
     a_tag.add_child(img_tag)
     assert (
         str(a_tag)
@@ -186,12 +197,12 @@ def test_singleton_tag_with_add_child_element_function():
 
 
 def test_pretty_str():
-    test_tag = TagFactory("div", innerHTML=[TagFactory("div-2", "")])
+    test_tag = Tagged(raw_tag="div", innerHTML=[Tagged(raw_tag="div-2")])
     assert test_tag.pretty_str() == """<div>\n <div-2>\n </div-2>\n</div>"""
 
 
 def test_pretty_str_with_html_tags():
-    test_tag = TagFactory("div", TagFactory("div-2", ""))
+    test_tag = Tagged(raw_tag="div", innerHTML=[Tagged(raw_tag="div-2")])
     assert (
         test_tag.pretty_str(add_html_tags=True)
         == "<html>\n <head>\n </head>\n <body>\n  <div>\n"

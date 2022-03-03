@@ -1,8 +1,11 @@
-from typing import Iterable, Dict, Union
+from typing import Dict, Union, List, Tuple, Any
 from dataclasses import dataclass, field
+
+# from pydantic import BaseModel, validator, Field
 from htmlfactory_new.Tag import Tag
 from htmlfactory_new.protocols import HTMLElement
-from itertools import chain
+
+# from itertools import chain
 
 
 @dataclass
@@ -15,9 +18,9 @@ class TagFactory:
     """
 
     raw_tag: str
-    innerHTML: Iterable[HTMLElement] = field(default_factory=list)
+    innerHTML: List[Any] = field(default_factory=list)
     singleton: bool = False
-    attributes: Dict[str, HTMLElement] = field(default_factory=dict)
+    attributes: Dict[str, Any] = field(default_factory=dict)
 
     @property
     def tag(self) -> Tag:
@@ -54,18 +57,44 @@ class TagFactory:
     def print_html(self, pretty: bool = False) -> None:
         print(self.get_html())
 
-    # TODO: How to add child when innerHTML is generic Iterable?
-    def add_child(self, child: Union[Iterable[HTMLElement], HTMLElement]) -> None:
-        if isinstance(child, Iterable):
-            self.innerHTML = chain(self.innerHTML, child)
-        else:
-            self.innerHTML = chain(self.innerHTML, [child])
+    def add_child(self, child: HTMLElement) -> None:
+        self.innerHTML.append(child)
 
     def __str__(self) -> str:
         return self.get_html()
 
+    # def __enter__(self):
+    #     return self
 
-# x = TagFactory("div.container-fluid", innerHTML=[TagFactory("div.my-class", innerHTML=["I'm inside the div"])])
-# print(x)
-# x.add_child("DERKADFKADSFK AFDKDA F")
-# print(x)
+    # def __exit__(self, type, value, traceback):
+    #     pass
+
+
+# with TagFactory("div.container-fluid", innerHTML=[TagFactory("div.my-class", innerHTML=["I'm inside the div"])]) as obj:
+#     obj.add_child("Asfadfdffads")
+#     print(obj)
+
+
+# def create_tag(raw_tag: str, innerHTML: Union[List[HTMLElement], Tuple[HTMLElement, HTMLElement]):
+#     pass
+
+
+def Tagged(
+    raw_tag: str,
+    innerHTML: Union[List[HTMLElement], Tuple[HTMLElement], HTMLElement] = [],
+    singleton: bool = False,
+    **kwargs
+) -> TagFactory:
+    if isinstance(innerHTML, tuple):
+        innerHTML = list(innerHTML)
+    elif isinstance(innerHTML, List):
+        pass
+    else:
+        innerHTML = [innerHTML]
+
+    return TagFactory(
+        raw_tag=raw_tag,
+        innerHTML=innerHTML,
+        singleton=singleton,
+        attributes=kwargs,
+    )
