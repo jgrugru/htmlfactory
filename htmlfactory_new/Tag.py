@@ -1,5 +1,5 @@
-from dataclasses import dataclass, field
 from typing import List, Dict
+from pydantic import BaseModel, Field, PrivateAttr
 
 from htmlfactory_new.protocols import HTMLElement
 
@@ -22,40 +22,45 @@ def attr_concatenater(attr: str, *args) -> str:
     return return_str
 
 
-@dataclass
-class Tag:
-    """This function takes the tag_and_class_str
-    (Ex: 'div.class1.class2') and turns it into printable tag."""
+class Tag(BaseModel):
+    """This class represents the <tag></tag>.
+    Is responsible for all attributes regarding a tag."""
 
     raw_str: str
+    _tag: str = PrivateAttr(default=None)
     attributes: Dict[str, HTMLElement]
-    classes: List[str] = field(default_factory=list)
+    classes: List[str] = Field(default_factory=list)
 
-    def __post_init__(self) -> None:
-        """Populates the attributes self.tag and self.classes"""
-        self.parse_raw_str(self.raw_str)
+    class Config:
+        arbitrary_types_allowed = True
+
+    # def __post_init__(self) -> None:
+    #     """Populates the attributes self.tag and self.classes"""
+    #     self.parse_raw_str()
 
     @property
     def prefix(self) -> str:
-        return "<" + self.tag + self.get_classes_str() + self.get_attributes_str() + ">"
+        return (
+            "<" + self._tag + self.get_classes_str() + self.get_attributes_str() + ">"
+        )
 
     @property
     def open_prefix(self) -> str:
-        return "<" + self.tag + self.get_classes_str() + self.get_attributes_str()
+        return "<" + self._tag + self.get_classes_str() + self.get_attributes_str()
 
     @property
     def suffix(self) -> str:
-        return "</" + self.tag + ">"
+        return "</" + self._tag + ">"
 
-    def parse_raw_str(self, raw_str: str) -> None:
+    def parse_raw_str(self) -> None:
         """This function parses the tag and class string
         (example input: 'div.col-md-10.col-10').
         Self.tag = 'div' and
         self.class_list = ['col-md-10', 'col-10']."""
 
-        split_str: List[str] = self.split_str_by_period(raw_str)
+        split_str: List[str] = self.split_str_by_period(self.raw_str)
 
-        self.tag = split_str[0]
+        self._tag = split_str[0]
         if len(split_str) > 0:
             self.classes = split_str[1:]
 
@@ -78,4 +83,4 @@ class Tag:
         return return_str
 
     def __str__(self) -> str:
-        return f"Tag({self.prefix})"
+        return f"_Tag({self.prefix})"

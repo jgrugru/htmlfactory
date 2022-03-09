@@ -1,5 +1,8 @@
 from typing import Dict, Union, List, Tuple, Any
-from dataclasses import dataclass, field
+
+# from dataclasses import dataclass, field
+
+from pydantic import BaseModel, Field
 
 # from pydantic import BaseModel, validator, Field
 from htmlfactory_new.Tag import Tag
@@ -8,8 +11,7 @@ from htmlfactory_new.protocols import HTMLElement
 # from itertools import chain
 
 
-@dataclass
-class TagFactory:
+class TagFactory(BaseModel):
     """
     Python class that assists in creating printable html.
     Ex) TagFactory("div.container-fluid", innerHTML=[TagFactory("div.my-class", innerHTML=["I'm inside the div"])])
@@ -18,13 +20,18 @@ class TagFactory:
     """
 
     raw_tag: str
-    innerHTML: List[Any] = field(default_factory=list)
+    innerHTML: List[Any] = Field(default_factory=list)
     singleton: bool = False
-    attributes: Dict[str, Any] = field(default_factory=dict)
+    attributes: Dict[str, Any] = Field(default_factory=dict)
+
+    class Config:
+        arbitrary_types_allowed = True
 
     @property
     def tag(self) -> Tag:
-        return Tag(self.raw_tag, attributes=self.attributes)
+        new_tag = Tag(raw_str=self.raw_tag, attributes=self.attributes)
+        new_tag.parse_raw_str()
+        return new_tag
 
     def get_html(self, bootstrap: bool = False, jquery: bool = False) -> str:
         if not self.singleton:
@@ -75,8 +82,13 @@ class TagFactory:
 #     print(obj)
 
 
-# def create_tag(raw_tag: str, innerHTML: Union[List[HTMLElement], Tuple[HTMLElement, HTMLElement]):
-#     pass
+def convert_to_list(innerHTML) -> List[HTMLElement]:
+    if isinstance(innerHTML, tuple):
+        return list(innerHTML)
+    elif isinstance(innerHTML, List):
+        return innerHTML
+    else:
+        return [innerHTML]
 
 
 def Tagged(
@@ -85,16 +97,9 @@ def Tagged(
     singleton: bool = False,
     **kwargs
 ) -> TagFactory:
-    if isinstance(innerHTML, tuple):
-        innerHTML = list(innerHTML)
-    elif isinstance(innerHTML, List):
-        pass
-    else:
-        innerHTML = [innerHTML]
-
     return TagFactory(
         raw_tag=raw_tag,
-        innerHTML=innerHTML,
+        innerHTML=convert_to_list(innerHTML),
         singleton=singleton,
         attributes=kwargs,
     )

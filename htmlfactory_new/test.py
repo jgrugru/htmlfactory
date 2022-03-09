@@ -1,4 +1,14 @@
-from htmlfactory_new.TagFactory import Tagged
+from htmlfactory_new.TagFactory import TagFactory, Tagged
+
+
+def test_basic_tag_factory():
+    test_tag = Tagged(raw_tag="div.testing")
+    assert str(test_tag) == """<div class='testing'></div>"""
+
+
+def test_tag_factory_inner_html():
+    test_tag = Tagged(raw_tag="div.testing", innerHTML=TagFactory(raw_tag="div.test"))
+    assert str(test_tag) == """<div class='testing'><div class='test'></div></div>"""
 
 
 def test_tagged():
