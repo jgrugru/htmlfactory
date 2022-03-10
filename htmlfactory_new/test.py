@@ -150,19 +150,6 @@ def test_add_child_element():
     )
 
 
-"""
-def test_add_child_element_list():
-    test_tag = Tagged(raw_tag="test_tag")
-    child_tag = Tagged(raw_tag="div")
-    child_list = []
-    for x in range(3):
-        child_list.append(child_tag)
-    test_tag.add_child_element(child_list)
-    assert (
-        str(test_tag) == "<test_tag><div></div><div>" + "</div><div></div></test_tag>"
-    )"""
-
-
 def test_add_child_element_with_child_element():
     test_tag = Tagged(raw_tag="test_tag")
     test_tag.add_child(
@@ -199,15 +186,27 @@ def test_singleton_tag_with_add_child_element_function():
     assert str(a_tag) == """<a href='www.google.com'><img src='logo_w3s.gif'></a>"""
 
 
-# def test_pretty_str():
-#     test_tag = Tagged(raw_tag="div", innerHTML=[Tagged(raw_tag="div-2")])
-#     assert test_tag.pretty_str() == """<div>\n <div-2>\n </div-2>\n</div>"""
+def test_pretty_str():
+    test_tag = Tagged(raw_tag="div", innerHTML=[Tagged(raw_tag="div-2")])
+    assert test_tag.get_pretty_str() == """<div>\n <div-2>\n </div-2>\n</div>"""
 
 
-# def test_pretty_str_with_html_tags():
-#     test_tag = Tagged(raw_tag="div", innerHTML=[Tagged(raw_tag="div-2")])
+def test_pretty_str_with_children():
+    test_tag = Tagged(raw_tag="div", innerHTML=[Tagged(raw_tag="div-2")])
+    test_tag.add_child(Tagged(raw_tag="div.child"))
+    assert (
+        test_tag.get_pretty_str()
+        == """<div>\n <div-2>\n </div-2>\n <div class="child">\n </div>\n</div>"""
+    )
+
+
+# def test_add_child_element_list():
+#     test_tag = Tagged(raw_tag="test_tag")
+#     child_tag = Tagged(raw_tag="div")
+#     child_list = []
+#     for x in range(3):
+#         child_list.append(child_tag)
+#     test_tag.add_child_element(child_list)
 #     assert (
-#         test_tag.pretty_str(add_html_tags=True)
-#         == "<html>\n <head>\n </head>\n <body>\n  <div>\n"
-#         + "   <div-2>\n   </div-2>\n  </div>\n </body>\n</html>"
+#         str(test_tag) == "<test_tag><div></div><div>" + "</div><div></div></test_tag>"
 #     )

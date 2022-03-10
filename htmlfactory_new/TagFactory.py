@@ -1,4 +1,5 @@
 from pydantic import BaseModel, Field, validate_arguments
+from bs4 import BeautifulSoup
 from typing import Dict, Union, List, Tuple
 from htmlfactory_new.Tag import Tag
 from htmlfactory_new.protocols import HTMLElement
@@ -60,7 +61,14 @@ class TagFactory(BaseModel):
         return html_str
 
     def print_html(self, pretty: bool = False) -> None:
-        print(self.get_html())
+        if pretty:
+            print(self.get_pretty_str())
+        else:
+            print(self.get_html())
+
+    def get_pretty_str(self) -> str:
+        soup = BeautifulSoup(self.get_html(), features="html.parser")
+        return soup.prettify()
 
     def add_child(self, child: HTMLElement) -> None:
         self.innerHTML.append(child)
