@@ -15,7 +15,7 @@ print(TagFactory("div.my-class"))
 # <div class='my-class'></div>
 ```
 
-To add content between tags, we can pass any object can be cast to a *str*.
+To add content between tags, we can pass any object that can be cast to a *str*.
 ```python
 # pass a string
 print(TagFactory("div.my-class", innerHTML='I am inside the div.'))
