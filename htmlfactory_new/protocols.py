@@ -14,20 +14,6 @@ class HTMLElement(Protocol):
         ...
 
 
-@runtime_checkable
-class IterableSized(Protocol):
-    """An iterable object with a len dunder method"""
-
-    def __len__(self) -> int:
-        ...
-
-    def __iter__(self):
-        ...
-
-    def __next__(self):
-        ...
-
-
 # class InnerHTML(list):
 
 #     @classmethod

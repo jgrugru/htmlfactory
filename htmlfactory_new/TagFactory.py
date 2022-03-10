@@ -1,4 +1,4 @@
-from typing import Dict, Union, List, Tuple, Any
+from typing import Dict, Union, List, Tuple
 
 # from dataclasses import dataclass, field
 
@@ -20,9 +20,9 @@ class TagFactory(BaseModel):
     """
 
     raw_tag: str
-    innerHTML: List[Any] = Field(default_factory=list)
+    innerHTML: List[HTMLElement] = Field(default_factory=list)
     singleton: bool = False
-    attributes: Dict[str, Any] = Field(default_factory=dict)
+    attributes: Dict[str, HTMLElement] = Field(default_factory=dict)
 
     class Config:
         arbitrary_types_allowed = True
@@ -103,3 +103,11 @@ def Tagged(
         singleton=singleton,
         attributes=kwargs,
     )
+
+
+a_tag = Tagged(
+    raw_tag="a",
+    innerHTML=[Tagged(raw_tag="img", singleton=True, src="logo_w3s.gif")],
+    href="www.google.com",
+)
+print(str(a_tag))

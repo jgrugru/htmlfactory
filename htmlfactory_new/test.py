@@ -2,7 +2,7 @@ from htmlfactory_new.TagFactory import TagFactory, Tagged
 
 
 def test_basic_tag_factory():
-    test_tag = Tagged(raw_tag="div.testing")
+    test_tag = TagFactory(raw_tag="div.testing")
     assert str(test_tag) == """<div class='testing'></div>"""
 
 
@@ -170,25 +170,21 @@ def test_add_child_element_with_child_element():
     )
     assert (
         str(test_tag)
-        == """<test_tag><div class='container'>""" + "<div1></div1></div></test_tag>"
+        == """<test_tag><div class='container'><div1></div1></div></test_tag>"""
     )
 
 
-def test_singleton_tag_add_with_child_element_list():
+def test_singleton_tag_add_element():
     body = Tagged(raw_tag="body")
-    body.add_child(
-        [Tagged(raw_tag="img", singleton=True), Tagged(raw_tag="img1", singleton=True)]
-    )
-    assert str(body) == "<body><img><img1></body>"
+    body.add_child(Tagged(raw_tag="img", singleton=True))
+    assert str(body) == "<body><img></body>"
 
 
 def test_singleton_tag_as_child_element():
     a_tag = Tagged(
         raw_tag="a",
-        innerHTML=[
-            Tagged(raw_tag="img", singleton=True, attributes={"src": "logo_w3s.gif"})
-        ],
-        attributes={"href": "www.google.com"},
+        innerHTML=[Tagged(raw_tag="img", singleton=True, src="logo_w3s.gif")],
+        href="www.google.com",
     )
     assert (
         str(a_tag)
@@ -197,24 +193,21 @@ def test_singleton_tag_as_child_element():
 
 
 def test_singleton_tag_with_add_child_element_function():
-    img_tag = Tagged(raw_tag="img", singleton=True, attributes={"src": "logo_w3s.gif"})
-    a_tag = Tagged(raw_tag="a", attributes={"href": "www.google.com"})
+    img_tag = Tagged(raw_tag="img", singleton=True, src="logo_w3s.gif")
+    a_tag = Tagged(raw_tag="a", href="www.google.com")
     a_tag.add_child(img_tag)
-    assert (
-        str(a_tag)
-        == """<a href='www.google.com'>""" + """<img src='logo_w3s.gif'></a>"""
-    )
+    assert str(a_tag) == """<a href='www.google.com'><img src='logo_w3s.gif'></a>"""
 
 
-def test_pretty_str():
-    test_tag = Tagged(raw_tag="div", innerHTML=[Tagged(raw_tag="div-2")])
-    assert test_tag.pretty_str() == """<div>\n <div-2>\n </div-2>\n</div>"""
+# def test_pretty_str():
+#     test_tag = Tagged(raw_tag="div", innerHTML=[Tagged(raw_tag="div-2")])
+#     assert test_tag.pretty_str() == """<div>\n <div-2>\n </div-2>\n</div>"""
 
 
-def test_pretty_str_with_html_tags():
-    test_tag = Tagged(raw_tag="div", innerHTML=[Tagged(raw_tag="div-2")])
-    assert (
-        test_tag.pretty_str(add_html_tags=True)
-        == "<html>\n <head>\n </head>\n <body>\n  <div>\n"
-        + "   <div-2>\n   </div-2>\n  </div>\n </body>\n</html>"
-    )
+# def test_pretty_str_with_html_tags():
+#     test_tag = Tagged(raw_tag="div", innerHTML=[Tagged(raw_tag="div-2")])
+#     assert (
+#         test_tag.pretty_str(add_html_tags=True)
+#         == "<html>\n <head>\n </head>\n <body>\n  <div>\n"
+#         + "   <div-2>\n   </div-2>\n  </div>\n </body>\n</html>"
+#     )
