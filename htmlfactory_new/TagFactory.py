@@ -8,9 +8,9 @@ from htmlfactory_new.protocols import HTMLElement
 class TagFactory(BaseModel):
     """
     Python class that assists in creating printable html.
-    Ex) TagFactory("div.container-fluid", innerHTML=[TagFactory("div.my-class", innerHTML=["I'm inside the div"])])
+    Ex) TagFactory(raw_tag="div.container", innerHTML=[TagFactory("div.my-class", innerHTML=["I'm inside the div"])])
     -->
-    <div class='container-fluid'><div class='my-class'>I'm inside the div</div></div>
+    <div class='container'><div class='my-class'>I'm inside the div</div></div>
     """
 
     raw_tag: str
@@ -46,8 +46,7 @@ class TagFactory(BaseModel):
     def singleton_tag(self) -> str:
         """The str output if singleton == True"""
         tag = self.tag
-        html_str = tag.open_prefix
-        html_str += ">"
+        html_str = tag.singleton
         html_str += self.concatenate_innerHTML()
 
         return html_str
@@ -88,6 +87,7 @@ def convert_to_list(innerHTML) -> List[HTMLElement]:
         return [innerHTML]
 
 
+# TO DO: Maybe call it tag instead of raw_tag?
 @validate_arguments(config=dict(arbitrary_types_allowed=True))
 def Tagged(
     raw_tag: str,

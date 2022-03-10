@@ -29,9 +29,13 @@ class Tag(BaseModel):
     raw_str: str
     attributes: Dict[str, HTMLElement]
     classes: List[str] = Field(default_factory=list)
-    _tag: str = PrivateAttr(default=None)
+    _tag: str = PrivateAttr(
+        default=None
+    )  # This is populated when parse_raw_str() is called
 
     def __init__(self, **kwargs):
+        """Since the parsing of the raw_str has to take place post initialiation,
+        Tag has it's own init and calls BaseModel's init."""
         super().__init__(**kwargs)
         self.parse_raw_str()
 
@@ -40,22 +44,30 @@ class Tag(BaseModel):
 
     @property
     def prefix(self) -> str:
+        """Str that represents beginning of a tag.
+        EX) <div class='test' action='/action.php'>"""
         return (
             "<" + self._tag + self.get_classes_str() + self.get_attributes_str() + ">"
         )
 
     @property
-    def open_prefix(self) -> str:
-        return "<" + self._tag + self.get_classes_str() + self.get_attributes_str()
+    def singleton(self) -> str:
+        """Str that represents beginning of a singleton tag,
+        missing the end bracket.
+        EX) <img class='test' action='/action.php'"""
+        return (
+            "<" + self._tag + self.get_classes_str() + self.get_attributes_str() + ">"
+        )
 
     @property
     def suffix(self) -> str:
+        """Str that represents ending of a tag. EX) </tag>"""
         return "</" + self._tag + ">"
 
     def parse_raw_str(self) -> None:
         """This function parses the tag and class string
         (example input: 'div.col-md-10.col-10').
-        Self.tag = 'div' and
+        self.tag = 'div' and
         self.class_list = ['col-md-10', 'col-10']."""
 
         split_str: List[str] = self.split_str_by_period(self.raw_str)
