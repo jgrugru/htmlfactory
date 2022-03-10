@@ -76,7 +76,7 @@ class Tag(BaseModel):
         if len(split_str) > 0:
             self.classes = split_str[1:]
 
-    def split_str_by_period(self, str) -> List[str]:
+    def split_str_by_period(self, str: str) -> List[str]:
         """Return the string split by periods.
         "div.col-md-10" becomes ["div", "col-md-10"]."""
 

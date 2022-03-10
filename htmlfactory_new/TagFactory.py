@@ -77,7 +77,9 @@ class TagFactory(BaseModel):
 
 
 @validate_arguments(config=dict(arbitrary_types_allowed=True))
-def convert_to_list(innerHTML) -> List[HTMLElement]:
+def convert_to_list(
+    innerHTML: Union[List[HTMLElement], Tuple[HTMLElement], HTMLElement]
+) -> List[HTMLElement]:
     """Utility function to convert any of the allowed types for innerHTML to a list"""
     if isinstance(innerHTML, tuple):
         return list(innerHTML)
