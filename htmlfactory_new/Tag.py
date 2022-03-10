@@ -23,20 +23,20 @@ def attr_concatenater(attr: str, *args) -> str:
 
 
 class Tag(BaseModel):
-    """This class represents the <tag></tag>.
+    """This class represents the <tag> and closing </tag>.
     Is responsible for all attributes regarding a tag."""
 
     raw_str: str
-    _tag: str = PrivateAttr(default=None)
     attributes: Dict[str, HTMLElement]
     classes: List[str] = Field(default_factory=list)
+    _tag: str = PrivateAttr(default=None)
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.parse_raw_str()
 
     class Config:
         arbitrary_types_allowed = True
-
-    # def __post_init__(self) -> None:
-    #     """Populates the attributes self.tag and self.classes"""
-    #     self.parse_raw_str()
 
     @property
     def prefix(self) -> str:

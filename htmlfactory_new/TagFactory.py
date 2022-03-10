@@ -1,14 +1,7 @@
+from pydantic import BaseModel, Field, validate_arguments
 from typing import Dict, Union, List, Tuple
-
-# from dataclasses import dataclass, field
-
-from pydantic import BaseModel, Field
-
-# from pydantic import BaseModel, validator, Field
 from htmlfactory_new.Tag import Tag
 from htmlfactory_new.protocols import HTMLElement
-
-# from itertools import chain
 
 
 class TagFactory(BaseModel):
@@ -30,16 +23,18 @@ class TagFactory(BaseModel):
     @property
     def tag(self) -> Tag:
         new_tag = Tag(raw_str=self.raw_tag, attributes=self.attributes)
-        new_tag.parse_raw_str()
         return new_tag
 
     def get_html(self, bootstrap: bool = False, jquery: bool = False) -> str:
+        """Grabs all the html for selected TagFactory object,
+        concatenates all children objects."""
         if not self.singleton:
             return self.full_tag()
         else:
             return self.singleton_tag()
 
     def full_tag(self) -> str:
+        """The str output if singleton == False"""
         tag = self.tag
         html_str = tag.prefix
         html_str += self.concatenate_innerHTML()
@@ -48,6 +43,7 @@ class TagFactory(BaseModel):
         return html_str
 
     def singleton_tag(self) -> str:
+        """The str output if singleton == True"""
         tag = self.tag
         html_str = tag.open_prefix
         html_str += ">"
@@ -56,6 +52,8 @@ class TagFactory(BaseModel):
         return html_str
 
     def concatenate_innerHTML(self) -> str:
+        """Recursively grabs all children objects html
+        and concatenates them"""
         html_str = ""
         for element in self.innerHTML:
             html_str += str(element)
@@ -70,19 +68,10 @@ class TagFactory(BaseModel):
     def __str__(self) -> str:
         return self.get_html()
 
-    # def __enter__(self):
-    #     return self
 
-    # def __exit__(self, type, value, traceback):
-    #     pass
-
-
-# with TagFactory("div.container-fluid", innerHTML=[TagFactory("div.my-class", innerHTML=["I'm inside the div"])]) as obj:
-#     obj.add_child("Asfadfdffads")
-#     print(obj)
-
-
+@validate_arguments(config=dict(arbitrary_types_allowed=True))
 def convert_to_list(innerHTML) -> List[HTMLElement]:
+    """Utility function to convert any of the allowed types for innerHTML to a list"""
     if isinstance(innerHTML, tuple):
         return list(innerHTML)
     elif isinstance(innerHTML, List):
@@ -91,6 +80,7 @@ def convert_to_list(innerHTML) -> List[HTMLElement]:
         return [innerHTML]
 
 
+@validate_arguments(config=dict(arbitrary_types_allowed=True))
 def Tagged(
     raw_tag: str,
     innerHTML: Union[List[HTMLElement], Tuple[HTMLElement], HTMLElement] = [],
@@ -103,11 +93,3 @@ def Tagged(
         singleton=singleton,
         attributes=kwargs,
     )
-
-
-a_tag = Tagged(
-    raw_tag="a",
-    innerHTML=[Tagged(raw_tag="img", singleton=True, src="logo_w3s.gif")],
-    href="www.google.com",
-)
-print(str(a_tag))
