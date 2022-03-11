@@ -3,7 +3,7 @@ TODO List
 - Rename variables/classes to more understandable/contextual names.
 - Add additional functionality so that the user can have the ability to pass classes as an argument.
 - shouldn't have to have key word args
-
+- the parsing of the string needs to be separated from HTMLElement and HTMLTag. Those are the core elements, all optional functionality should be calculated before that.
 Ideas
 -----------
 form("Q group signup", fields=[("first name", "text"), ("last name", "text"), ("description", "textarea")])

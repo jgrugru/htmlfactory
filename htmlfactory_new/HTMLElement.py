@@ -1,33 +1,34 @@
 from pydantic import BaseModel, Field, validate_arguments
 from bs4 import BeautifulSoup
 from typing import Dict, Union, List, Tuple
-from htmlfactory_new.Tag import Tag
-from htmlfactory_new.protocols import HTMLElement
+from htmlfactory_new.HTMLTag import HTMLTag
+from htmlfactory_new.protocols import Stringable
 
 
-class TagFactory(BaseModel):
+class HTMLElement(BaseModel):
     """
-    Python class that assists in creating printable html.
-    Ex) TagFactory(raw_tag="div.container", innerHTML=[TagFactory("div.my-class", innerHTML=["I'm inside the div"])])
+    The core class to creating an HTML element. "<div class="test">Inside the div</div>" is considered an HTML element.
+    HTMLElement contains a HTMLTag property which is responsible for the actual tags -- the html between <> brackets. EX) <div>.
+    Ex) HTMLElement(raw_tag="div.container", innerHTML=HTMLElement("div.my-class", innerHTML="I'm inside the div"))
     -->
     <div class='container'><div class='my-class'>I'm inside the div</div></div>
     """
 
     raw_tag: str
-    innerHTML: List[HTMLElement] = Field(default_factory=list)
+    innerHTML: List[Stringable] = Field(default_factory=list)
     singleton: bool = False
-    attributes: Dict[str, HTMLElement] = Field(default_factory=dict)
+    attributes: Dict[str, Stringable] = Field(default_factory=dict)
 
     class Config:
         arbitrary_types_allowed = True
 
     @property
-    def tag(self) -> Tag:
-        new_tag = Tag(raw_str=self.raw_tag, attributes=self.attributes)
+    def tag(self) -> HTMLTag:
+        new_tag = HTMLTag(raw_str=self.raw_tag, attributes=self.attributes)
         return new_tag
 
     def get_html(self, bootstrap: bool = False, jquery: bool = False) -> str:
-        """Grabs all the html for selected TagFactory object,
+        """Grabs all the html for selected HTMLElement object,
         concatenates all children objects."""
         if not self.singleton:
             return self.full_tag()
@@ -69,7 +70,7 @@ class TagFactory(BaseModel):
         soup = BeautifulSoup(self.get_html(), features="html.parser")
         return soup.prettify()
 
-    def add_child(self, child: HTMLElement) -> None:
+    def add_child(self, child: Stringable) -> None:
         self.innerHTML.append(child)
 
     def __str__(self) -> str:
@@ -78,9 +79,9 @@ class TagFactory(BaseModel):
 
 @validate_arguments(config=dict(arbitrary_types_allowed=True))
 def convert_to_list(
-    innerHTML: Union[List[HTMLElement], Tuple[HTMLElement], HTMLElement]
-) -> List[HTMLElement]:
-    """Utility function to convert any of the allowed types for innerHTML to a list"""
+    innerHTML: Union[List[Stringable], Tuple[Stringable], Stringable]
+) -> List[Stringable]:
+    """Utility function to convert any of the allowed types to a list"""
     if isinstance(innerHTML, tuple):
         return list(innerHTML)
     elif isinstance(innerHTML, List):
@@ -91,13 +92,13 @@ def convert_to_list(
 
 # TO DO: Maybe call it tag instead of raw_tag?
 @validate_arguments(config=dict(arbitrary_types_allowed=True))
-def Tagged(
+def Tag(
     raw_tag: str,
-    innerHTML: Union[List[HTMLElement], Tuple[HTMLElement], HTMLElement] = [],
+    innerHTML: Union[List[Stringable], Tuple[Stringable], Stringable] = [],
     singleton: bool = False,
     **kwargs
-) -> TagFactory:
-    return TagFactory(
+) -> HTMLElement:
+    return HTMLElement(
         raw_tag=raw_tag,
         innerHTML=convert_to_list(innerHTML),
         singleton=singleton,

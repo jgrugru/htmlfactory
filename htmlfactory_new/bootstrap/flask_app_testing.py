@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from htmlfactory_new.TagFactory import Tagged
+from htmlfactory_new.HTMLElement import Tagged
 
 # export FLASK_APP=flask_app_testing
 # export FLASK_ENV=development

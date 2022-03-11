@@ -1,7 +1,7 @@
 from typing import List, Dict
 from pydantic import BaseModel, Field, PrivateAttr
 
-from htmlfactory_new.protocols import HTMLElement
+from htmlfactory_new.protocols import Stringable
 
 
 def attr_concatenater(attr: str, *args) -> str:
@@ -22,12 +22,12 @@ def attr_concatenater(attr: str, *args) -> str:
     return return_str
 
 
-class Tag(BaseModel):
+class HTMLTag(BaseModel):
     """This class represents the <tag> and closing </tag>.
     Is responsible for all attributes regarding a tag."""
 
     raw_str: str
-    attributes: Dict[str, HTMLElement]
+    attributes: Dict[str, Stringable]
     classes: List[str] = Field(default_factory=list)
     _tag: str = PrivateAttr(
         default=None
