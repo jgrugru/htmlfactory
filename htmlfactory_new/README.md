@@ -13,7 +13,7 @@ print(TagFactory("div.my-class"))
 # <div class='my-class'></div>
 ```
 
-To add content between tags, we can pass any object can be cast to a *str*.
+To add content between tags, we can pass any object that can be cast to a *str*.
 ```python
 # pass a string
 print(TagFactory("div.my-class", innerHTML='I am inside the div.'))
@@ -30,6 +30,15 @@ my_tag.print_html(pretty=True)
 #     child tag
 #   </div>
 # </div>
+```
+
+### Multiple classes
+
+You can add as many classes as you want to your tag object:
+```Python
+print(TagFactory("div.class1.class2.class3.class4.class5", innerHTML='I have a lot of classes.'))
+
+# <div class='class1 class2 class3 class4 class5'>I have a lot of classes.</div>
 ```
 
 ### Add child element
@@ -55,16 +64,7 @@ my_tag.print_html(pretty=True)
 # </div>
 ```
 
-### Multiple classes example
-
-You can add as many classes as you want to your tag object:
-```Python
-print(TagFactory("div.class1.class2.class3.class4.class5", innerHTML='I have a lot of classes.'))
-
-# <div class='class1 class2 class3 class4 class5'>I have a lot of classes.</div>
-```
-
-###### adding attributes example
+### Attributes
 
 You can add attributes to your tab object by using keyword arguments:
 ```Python
