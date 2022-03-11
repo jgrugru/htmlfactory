@@ -7,8 +7,6 @@ Source code can be found on [github](https://github.com/jgrugru/htmlfactory).
 pip install htmlfactory
 ```
 
-## Examples:
-
 ### basic tag example
 ```python
 print(TagFactory("div.my-class"))
